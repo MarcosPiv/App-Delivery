@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador;
+package com.mycompany.tpintegrador.logica;
 
 import java.util.ArrayList;
 
@@ -32,8 +32,7 @@ public class Vendedor {
         }
         return null;
     }
- 
-
+    
     public int getId() {
         return id;
     }
@@ -66,7 +65,6 @@ public class Vendedor {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return RadioTierra * c;
     }
-    
     
     
 }

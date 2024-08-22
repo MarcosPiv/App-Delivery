@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador;
+package com.mycompany.tpintegrador.logica;
 
 public class Coordenada  {
     private double lat;
