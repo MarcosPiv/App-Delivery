@@ -16,5 +16,6 @@ public class Coordenada  {
     public double getLng() {
         return lng;
     }
+ 
 }
 
