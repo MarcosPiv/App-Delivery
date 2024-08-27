@@ -18,7 +18,10 @@ public class TPintegrador {
         
         boolean bandera = true;
         while (bandera) {
-            String in = JOptionPane.showInputDialog("Ingrese 1 para buscar por Nombre y 2 para buscar por Id: ");
+        String in = JOptionPane.showInputDialog("Ingrese:\n1 para buscar por Nombre.\n2 para buscar por Id.\n3 para eliminar por Id.\n4 para eliminar por Nombre: ");
+            if(in == null){
+                break;
+            }
             int selector = Integer.parseInt(in);
             switch (selector) {
                 case 1:
@@ -44,11 +47,53 @@ public class TPintegrador {
                     }
                     bandera=false;
                     break;
+                case 3:
+                    String idIngresado = JOptionPane.showInputDialog("Ingrese el id: ");
+                    if(idIngresado == null){
+                        break;
+                    }
+                    int id = Integer.parseInt(idIngresado);
+                    vendedorPorId = Vendedor.buscarVendedorPorId(vendedores, id);
+                    if(vendedorPorId != null){
+                        vendedores.remove(vendedorPorId);
+                        JOptionPane.showMessageDialog(null, "Vendedor eliminado por ID.");
+
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Vendedor no encontrado por ID.");
+                    }
+                    bandera=false;
+                    break;
+                case 4:
+                    String nombreIngresado = JOptionPane.showInputDialog("Ingrese el nombre: ");
+                    if(nombreIngresado == null){
+                        break;
+                    }
+                    vendedorPorNombre = Vendedor.buscarVendedorPorNombre(vendedores, nombreIngresado);
+                    if(vendedorPorNombre != null){
+                        vendedores.remove(vendedorPorNombre);
+                        JOptionPane.showMessageDialog(null, "Vendedor eliminado por Nombre.");
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Vendedor no encontrado por Nombre.");
+                    }
+                    bandera=false;
+                    break;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción no válida.");
                     
             }
         }
+
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        Cliente cliente1 = new Cliente(1, "20-12345678-9","luchomid@gmail.com", "Mirage 123", new Coordenada(-34.603722, -58.381592));
+        Cliente cliente2 = new Cliente(2, "20-44289973-9","meduB@gmail.com","Berettas 222", new Coordenada(-34.603722, -90.381592));
+        Cliente cliente3 = new Cliente(3, "20-12138478-9","dracusbot@gmail.com","Dust 222", new Coordenada(-34.603722, -58.381592));
+
+        clientes.add(cliente1);
+        clientes.add(cliente2);
+        clientes.add(cliente3);
+
+        
+
     }
 
 }
