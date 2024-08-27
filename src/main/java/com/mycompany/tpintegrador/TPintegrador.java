@@ -1,5 +1,6 @@
 package com.mycompany.tpintegrador;
 
+import com.mycompany.tpintegrador.logica.Cliente;
 import com.mycompany.tpintegrador.logica.Coordenada;
 import com.mycompany.tpintegrador.logica.Vendedor;
 import java.util.ArrayList;
@@ -83,7 +84,6 @@ public class TPintegrador {
                     
             }
         }
-
         ArrayList<Cliente> clientes = new ArrayList<>();
         Cliente cliente1 = new Cliente(1, "20-12345678-9","luchomid@gmail.com", "Mirage 123", new Coordenada(-34.603722, -58.381592));
         Cliente cliente2 = new Cliente(2, "20-44289973-9","meduB@gmail.com","Berettas 222", new Coordenada(-34.603722, -90.381592));

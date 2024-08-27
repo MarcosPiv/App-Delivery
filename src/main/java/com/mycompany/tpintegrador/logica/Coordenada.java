@@ -16,6 +16,11 @@ public class Coordenada  {
     public double getLng() {
         return lng;
     }
+
+    @Override
+    public String toString() {
+        return "Coordenada{" + "lat=" + lat + ", lng=" + lng + '}';
+    }
  
 }
 
