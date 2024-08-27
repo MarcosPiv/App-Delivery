@@ -1,5 +1,7 @@
 package com.mycompany.tpintegrador;
 
+import com.mycompany.tpintegrador.logica.Coordenada;
+import com.mycompany.tpintegrador.logica.Vendedor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -14,7 +16,6 @@ public class TPintegrador {
         vendedores.add(vendedor1);
         vendedores.add(vendedor2);
         vendedores.add(vendedor3);
-
         
         boolean bandera = true;
         while (bandera) {
@@ -26,14 +27,14 @@ public class TPintegrador {
             switch (selector) {
                 case 1:
                     String vend = JOptionPane.showInputDialog("Ingrese el vendedor: ");
-
                     Vendedor vendedorPorNombre = Vendedor.buscarVendedorPorNombre(vendedores, vend);
+                    
                     if (vendedorPorNombre != null) {
                         JOptionPane.showMessageDialog(null, "Vendedor encontrado por nombre: " + vendedorPorNombre.getNombre());
                     } else {
                         JOptionPane.showMessageDialog(null, "Vendedor no encontrado por Nombre.");
                     }
-                    bandera=false;
+                    bandera = false;
                     break;
                 case 2:
                     String numeroIngresado = JOptionPane.showInputDialog("Ingrese el id: ");
@@ -45,7 +46,7 @@ public class TPintegrador {
                     } else {
                         JOptionPane.showMessageDialog(null, "Vendedor no encontrado por ID.");
                     }
-                    bandera=false;
+                    bandera = false;
                     break;
                 case 3:
                     String idIngresado = JOptionPane.showInputDialog("Ingrese el id: ");

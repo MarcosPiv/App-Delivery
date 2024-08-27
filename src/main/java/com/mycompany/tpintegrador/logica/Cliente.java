@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador;
+package com.mycompany.tpintegrador.logica;
 
 public class Cliente {
     private int id;

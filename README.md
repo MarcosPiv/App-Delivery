@@ -8,6 +8,9 @@ La aplicación está diseñada para dos tipos de usuarios principales:
 - **Vendedores:** Restaurantes o rotiserías que pueden gestionar sus datos, menú, y pedidos.
 - **Compradores:** Clientes que pueden realizar pedidos, gestionarlos y ver su historial.
 
+## Modelo de Datos
+![image](https://github.com/user-attachments/assets/3cd371f1-c72d-45e3-9125-c1ce89df8de3)
+
 ### Funcionalidades principales
 
 1. **Gestión de Usuarios:**
