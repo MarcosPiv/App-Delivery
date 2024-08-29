@@ -75,17 +75,4 @@ public class Vendedor {
         return "Vendedor{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", coordenada=" + coordenada + '}';
     }
     
-    public double calcularDistancia(Cliente otra) {
-        //fórmula de Haversine
-        final int RadioTierra = 6371;
-        double dLat = Math.toRadians(otra.getCoordenada().getLat() - coordenada.getLat());
-        double dLng = Math.toRadians(otra.getCoordenada().getLng() - coordenada.getLng());
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                   Math.cos(Math.toRadians(coordenada.getLat())) * Math.cos(Math.toRadians(otra.getCoordenada().getLat())) *
-                   Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return RadioTierra * c;
-    }
-    
-    
 }
