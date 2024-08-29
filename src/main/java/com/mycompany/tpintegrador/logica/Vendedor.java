@@ -42,7 +42,7 @@ public class Vendedor {
         double lon1 = this.coordenada.getLat();
         double lat2 = cliente.getCoordenada().getLat();
         double lon2 = cliente.getCoordenada().getLat();
-
+        
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
