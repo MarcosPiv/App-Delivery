@@ -11,7 +11,8 @@ La aplicación está diseñada para dos tipos de usuarios principales:
 ## Modelo de Datos
 ![image](https://github.com/user-attachments/assets/5b9ba7a6-c022-4a92-8560-d16fa14e9d08)
 
-
+*Nota*:
+Los metodos de clase estan definidos subrayados. Por ejemplo __ buscarVendedorPorId __
 
 ### Funcionalidades principales
 
