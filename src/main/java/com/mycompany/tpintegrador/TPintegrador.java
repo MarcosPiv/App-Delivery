@@ -95,7 +95,7 @@ public class TPintegrador {
 
         bandera = true;
         while (bandera) {
-        String in = JOptionPane.showInputDialog("Ingrese para el CLiente:\n1 para buscar por Nombre.\n2 para buscar por Id.\n3 para eliminar por Id.\n4 para eliminar por Nombre: ");
+        String in = JOptionPane.showInputDialog("Ingrese para el Ciiente:\n1 para buscar por Nombre.\n2 para buscar por Id.\n3 para eliminar por Id.\n4 para eliminar por Nombre: ");
             if(in == null){
                 break;
             }
