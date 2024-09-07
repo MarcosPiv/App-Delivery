@@ -3,12 +3,12 @@ package com.mycompany.tpintegrador.logica;
 public class Categoria{
     private int id;
     private String descripcion;
-    private ItemMenu tipo_item;
+    private ItemMenu tipoItem;
 
-    public Categoria(int id, String descripcion, ItemMenu tipo_item) {
+    public Categoria(int id, String descripcion, ItemMenu tipoItem) {
         this.id = id;
         this.descripcion = descripcion;
-        this.tipo_item = tipo_item;
+        this.tipoItem = tipoItem;
     }
 
     public String getDescripcion() {
@@ -19,12 +19,12 @@ public class Categoria{
         this.descripcion = descripcion;
     }
 
-    public ItemMenu getTipo_item() {
-        return tipo_item;
+    public ItemMenu getTipoItem() {
+        return tipoItem;
     }
 
-    public void setTipo_item(ItemMenu tipo_item) {
-        this.tipo_item = tipo_item;
+    public void setTipoItem(ItemMenu tipoItem) {
+        this.tipoItem = tipoItem;
     }
 
     public int getId() {

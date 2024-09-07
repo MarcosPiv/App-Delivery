@@ -4,11 +4,9 @@ public abstract class ItemMenu {
     private int id;
     private String nombre;
     private String descripcion;
-    private int precio;
+    private double precio;
     private Categoria categoria;
     private double peso;
-
-
 
     public abstract double peso();
     public abstract boolean esComida();
@@ -33,10 +31,10 @@ public abstract class ItemMenu {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public int getPrecio() {
+    public double getPrecio() {
         return precio;
     }
-    public void setPrecio(int precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
     public Categoria getCategoria() {

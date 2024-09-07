@@ -1,34 +1,34 @@
 package com.mycompany.tpintegrador.logica;
 
 public class Bebida extends ItemMenu {
-    private double graduacion_alcoholica;
-    private double tamaño;
+    private double graduacionAlcoholica;
+    private double tamanio;
 
-    public Bebida(double graduacion_alcoholica, double tamaño) {
-        this.graduacion_alcoholica = graduacion_alcoholica;
-        this.tamaño = tamaño;
+    public Bebida(double graduacionAlcoholica, double tamanio) {
+        this.graduacionAlcoholica = graduacionAlcoholica;
+        this.tamanio = tamanio;
     }
 
-    public double getGraduacion_alcoholica() {
-        return graduacion_alcoholica;
+    public double getGraduacionAlcoholica() {
+        return graduacionAlcoholica;
     }
-    public void setGraduacion_alcoholica(double graduacion_alcoholica) {
-        this.graduacion_alcoholica = graduacion_alcoholica;
+    public void setGraduacionAlcoholica(double graduacionAlcoholica) {
+        this.graduacionAlcoholica = graduacionAlcoholica;
     }
-    public double getTamaño() {
-        return tamaño;
+    public double getTamanio() {
+        return tamanio;
     }
-    public void setTamaño(double tamaño) {
-        this.tamaño = tamaño;
+    public void setTamanio(double tamanio) {
+        this.tamanio = tamanio;
     }
     
     @Override
     public double peso(){
-        if(graduacion_alcoholica == 0){
-            setPeso((this.graduacion_alcoholica*1.04)*1.2);
+        if(graduacionAlcoholica == 0){
+            setPeso((this.graduacionAlcoholica*1.04)*1.2);
         }
         else{
-            setPeso((this.graduacion_alcoholica*0.99)*1.2);
+            setPeso((this.graduacionAlcoholica*0.99)*1.2);
         }
         return getPeso();
     }

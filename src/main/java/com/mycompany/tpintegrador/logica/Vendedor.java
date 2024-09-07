@@ -49,7 +49,7 @@ public class Vendedor {
     public ArrayList<Bebida> getItemBebidaSinAlcohol(){
         ArrayList<Bebida> bebidasSinAlcohol = new ArrayList<>();
         for (ItemMenu item : itemsMenu) {
-            if (item.esBebida() && ((Bebida) item).getGraduacion_alcoholica() == 0) {
+            if (item.esBebida() && ((Bebida) item).getGraduacionAlcoholica() == 0) {
                 bebidasSinAlcohol.add((Bebida) item);
             }
         }
@@ -109,11 +109,6 @@ public class Vendedor {
 
     public Coordenada getCoordenada() {
         return coordenada;
-    }
-
-    @Override
-    public String toString() {
-        return "Vendedor{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", coordenada=" + coordenada + '}';
     }
     
 }

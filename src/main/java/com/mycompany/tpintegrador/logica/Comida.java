@@ -14,6 +14,12 @@ public class Comida extends ItemMenu {
         this.pesoSinEnvase = pesoSinEnvase;
     }
 
+    public double getPesoSinEnvase() {
+        return pesoSinEnvase;
+    }
+    public void setPesoSinEnvase(double pesoSinEnvase) {
+        this.pesoSinEnvase = pesoSinEnvase;
+    }
     public int getCalorias() {
         return calorias;
     }
@@ -35,7 +41,7 @@ public class Comida extends ItemMenu {
 
     @Override
     public double peso(){
-        setPeso(pesoSinEnvase*1.1);
+        setPeso(this.pesoSinEnvase*1.1);
         return getPeso();
     }
 
