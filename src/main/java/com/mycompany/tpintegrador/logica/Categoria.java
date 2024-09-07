@@ -5,22 +5,33 @@ public class Categoria{
     private String descripcion;
     private ItemMenu tipo_item;
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
+    public Categoria(int id, String descripcion, ItemMenu tipo_item) {
         this.id = id;
+        this.descripcion = descripcion;
+        this.tipo_item = tipo_item;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getTipo_item() {
+
+    public ItemMenu getTipo_item() {
         return tipo_item;
     }
-    public void setTipo_item(String tipo_item) {
+
+    public void setTipo_item(ItemMenu tipo_item) {
         this.tipo_item = tipo_item;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -159,9 +159,6 @@ public class TPintegrador {
                     
             }
         }
-        
-            
-        
 
     }
 

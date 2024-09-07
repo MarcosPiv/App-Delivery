@@ -14,7 +14,6 @@ public abstract class ItemMenu {
     public abstract boolean esComida();
     public abstract boolean esBebida();
     public abstract boolean aptoVegano();
-    public abstract boolean aptoCeliaco();
 
     public int getId() {
         return id;

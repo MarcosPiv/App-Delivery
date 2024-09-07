@@ -5,12 +5,13 @@ public class Comida extends ItemMenu {
     private int calorias;
     private boolean aptoVegano;
     private boolean aptoCeliaco;
+    private double pesoSinEnvase;
 
-    
-    public Comida(int calorias, boolean aptoVegano, boolean aptoCeliaco) {
+    public Comida(int calorias, boolean aptoVegano, boolean aptoCeliaco, double pesoSinEnvase) {
         this.calorias = calorias;
         this.aptoVegano = aptoVegano;
         this.aptoCeliaco = aptoCeliaco;
+        this.pesoSinEnvase = pesoSinEnvase;
     }
 
     public int getCalorias() {
@@ -32,8 +33,10 @@ public class Comida extends ItemMenu {
         this.aptoCeliaco = aptoCeliaco;
     }
 
+    @Override
     public double peso(){
-        return ((this.getPeso()*1.1)*1.2);
+        setPeso(pesoSinEnvase*1.1);
+        return getPeso();
     }
 
     @Override
@@ -51,9 +54,6 @@ public class Comida extends ItemMenu {
         return aptoVegano;
     }
 
-    public boolean aptoCeliaco() {
-        return aptoCeliaco;
-    }
 }
     
 

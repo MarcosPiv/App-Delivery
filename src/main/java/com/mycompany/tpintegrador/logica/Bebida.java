@@ -22,7 +22,7 @@ public class Bebida extends ItemMenu {
         this.tamaño = tamaño;
     }
     
-
+    @Override
     public double peso(){
         if(graduacion_alcoholica == 0){
             setPeso((this.graduacion_alcoholica*1.04)*1.2);
@@ -30,8 +30,8 @@ public class Bebida extends ItemMenu {
         else{
             setPeso((this.graduacion_alcoholica*0.99)*1.2);
         }
+        return getPeso();
     }
-
     @Override
     public boolean esComida() {
         return false;

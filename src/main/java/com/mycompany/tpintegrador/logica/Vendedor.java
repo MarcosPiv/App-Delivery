@@ -7,6 +7,7 @@ public class Vendedor {
     private String nombre;
     private String direccion;
     private Coordenada coordenada;
+    private ArrayList<ItemMenu> itemsMenu = new ArrayList<>();
     
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenada) {
         this.id = id;
@@ -14,7 +15,47 @@ public class Vendedor {
         this.direccion = direccion;
         this.coordenada = coordenada;
     }
-    
+
+    public ArrayList<Comida> getItemComida() {
+        ArrayList<Comida> comidas = new ArrayList<>();
+        for (ItemMenu item : itemsMenu) {
+            if (item.esComida()) {
+                comidas.add((Comida) item);
+            }
+        }
+        return comidas;
+    }
+
+    public ArrayList<Bebida> getItemBebida() {
+        ArrayList<Bebida> bebidas = new ArrayList<>();
+        for (ItemMenu item : itemsMenu) {
+            if (item.esBebida()) {
+                bebidas.add((Bebida) item);
+            }
+        }
+        return bebidas;
+    }
+
+    public ArrayList<Comida> getItemComidaVegana(){
+        ArrayList<Comida> comidasVeganas = new ArrayList<>();
+        for (ItemMenu item : itemsMenu) {
+            if (item.esComida() && item.aptoVegano()) {
+                comidasVeganas.add((Comida) item);
+            }
+        }
+        return comidasVeganas;
+    }
+
+    public ArrayList<Bebida> getItemBebidaSinAlcohol(){
+        ArrayList<Bebida> bebidasSinAlcohol = new ArrayList<>();
+        for (ItemMenu item : itemsMenu) {
+            if (item.esBebida() && ((Bebida) item).getGraduacion_alcoholica() == 0) {
+                bebidasSinAlcohol.add((Bebida) item);
+            }
+        }
+        return bebidasSinAlcohol;
+    }
+
     public static Vendedor buscarVendedorPorNombre(ArrayList<Vendedor> vendedores, String nombre) {
         for (Vendedor vendedor : vendedores) {
             if (vendedor.getNombre().equalsIgnoreCase(nombre)) {
