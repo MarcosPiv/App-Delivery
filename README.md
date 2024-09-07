@@ -9,7 +9,9 @@ La aplicación está diseñada para dos tipos de usuarios principales:
 - **Compradores:** Clientes que pueden realizar pedidos, gestionarlos y ver su historial.
 
 ## Modelo de Datos
-![image](https://github.com/user-attachments/assets/3cd371f1-c72d-45e3-9125-c1ce89df8de3)
+![image](https://github.com/user-attachments/assets/5b9ba7a6-c022-4a92-8560-d16fa14e9d08)
+
+
 
 ### Funcionalidades principales
 
