@@ -9,6 +9,7 @@ public class Cliente {
     private String direccion;
     private Coordenada coordenada;
     private String nombre;
+    private ArrayList<Pedido> pedidos = new ArrayList<>();
 
     public Cliente(int id, String cuit, String email, String direccion, Coordenada coordenada, String nombre) {
         this.id = id;

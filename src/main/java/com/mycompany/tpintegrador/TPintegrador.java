@@ -3,8 +3,9 @@ package com.mycompany.tpintegrador;
 import com.mycompany.tpintegrador.logica.Cliente;
 import com.mycompany.tpintegrador.logica.Coordenada;
 import com.mycompany.tpintegrador.logica.Vendedor;
+
+import javax.swing.*;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class TPintegrador {
 
