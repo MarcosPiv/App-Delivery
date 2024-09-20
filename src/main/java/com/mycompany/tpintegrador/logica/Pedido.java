@@ -8,8 +8,12 @@ public class Pedido {
     private Cliente cliente;
     private Vendedor restaurante;
     private double precioTotal;
-    private ArrayList<DetallePedido> detallesPedido = new ArrayList<>();
+    private ArrayList<DetallePedido> detallesPedido;
     private Estado estado;
+
+    public Pedido() {
+    detallesPedido = new ArrayList<>();
+    }
 
     public Pedido(int id, Cliente cliente, Vendedor restaurante, double precioTotal, ArrayList<DetallePedido> detallesPedido, Estado estado) {
         this.id = id;
@@ -18,6 +22,14 @@ public class Pedido {
         this.precioTotal = precioTotal;
         this.detallesPedido = detallesPedido;
         this.estado = estado;
+    }
+
+    public void agregarDetalle(DetallePedido detalle){
+        detallesPedido.add(detalle);
+    }
+
+    public void quitarDetalle(DetallePedido detalle){
+        detallesPedido.remove(detalle);
     }
 
     public Vendedor getRestaurante() {

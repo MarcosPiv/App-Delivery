@@ -1,11 +1,12 @@
 package com.mycompany.tpintegrador;
 
-import com.mycompany.tpintegrador.logica.Cliente;
-import com.mycompany.tpintegrador.logica.Coordenada;
-import com.mycompany.tpintegrador.logica.Vendedor;
+import com.mycompany.tpintegrador.logica.*;
+import com.mycompany.tpintegrador.logica.businessExceptions.ItemNoEncontradoException;
+import com.mycompany.tpintegrador.respository.impl.ItemPedidoMemory;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TPintegrador {
 
@@ -161,6 +162,143 @@ public class TPintegrador {
             }
         }
 
+        ArrayList<Pedido> listaDePedidos = new ArrayList<>();
+
+        Pedido pedido1 = new Pedido(1, cliente1, vendedor1, 1000, new ArrayList<>(), Estado.PENDIENTE);
+        Pedido pedido2 = new Pedido(2, cliente2, vendedor2, 2000, new ArrayList<>(), Estado.PENDIENTE);
+        Pedido pedido3 = new Pedido(3, cliente3, vendedor3, 3000, new ArrayList<>(), Estado.PENDIENTE);
+
+        listaDePedidos.add(pedido1);
+        listaDePedidos.add(pedido2);
+        listaDePedidos.add(pedido3);
+
+        DetallePedido detallePedido1 = new DetallePedido(1, new Bebida(50,350), pedido1, 2, 700);
+        DetallePedido detallePedido2 = new DetallePedido(2, new Bebida(51,350), pedido1, 2, 100);
+        DetallePedido detallePedido3 = new DetallePedido(3, new Bebida(52,350), pedido1, 2, 200);
+        DetallePedido detallePedido4 = new DetallePedido(4, new Comida(53,true, true,500), pedido1, 1, 300);
+        DetallePedido detallePedido5 = new DetallePedido(5, new Comida(511,true, true,700), pedido2, 1, 400);
+        DetallePedido detallePedido6 = new DetallePedido(6, new Comida(1002,false, false,800), pedido2, 1, 5000);
+        DetallePedido detallePedido7 = new DetallePedido(7, new Comida(1003,false, false,1100), pedido2, 1, 600);
+        DetallePedido detallePedido8 = new DetallePedido(8, new Comida(1004,true, false,1200), pedido3, 1, 700);
+
+        pedido1.setDetallesPedido(new ArrayList<>(List.of(detallePedido1, detallePedido2, detallePedido3, detallePedido4)));
+        pedido2.setDetallesPedido(new ArrayList<>(List.of(detallePedido5, detallePedido6, detallePedido7)));
+        pedido3.setDetallesPedido(new ArrayList<>(List.of(detallePedido8)));
+
+        ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory(listaDePedidos);
+        StringBuilder mensaje = new StringBuilder();
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.filtrarPedidosPorEstado("pendiente");
+            mensaje.append("Estados de Pedidos: [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getEstado());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.filtrarPorPrecioMinimo(2000);
+            mensaje.append("Precio Total (Min): [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getPrecioTotal());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.filtrarPorPrecioMaximo(2000);
+            mensaje.append("Precio Total (Max): [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getPrecioTotal());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.ordenarPorPrecio();
+            mensaje.append("Precio Total (Ordenado): [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getPrecioTotal());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.ordenarPorNombre();
+            mensaje.append("Nombre (Ordenado): [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getRestaurante().getNombre());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try{
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.ordenarPorId();
+            mensaje.append("Id (Ordenado): [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getId());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.buscarItemPedidoPorRangoPrecio(1000, 2000);
+            mensaje.append("Rango de Precio: [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getPrecioTotal());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+
+        try {
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.buscarItemPedidoPorRestaurante(vendedor1);
+            mensaje.append("Restaurante: [");
+            for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                mensaje.append(pedidosFiltrados.get(i).getRestaurante().getNombre());
+                if (i < pedidosFiltrados.size() - 1) {
+                    mensaje.append(", ");
+                }
+            }
+            mensaje.append("]\n");
+        } catch (ItemNoEncontradoException e) {
+            mensaje.append(e.getMessage()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, mensaje.toString());
     }
 
 }
