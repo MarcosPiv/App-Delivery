@@ -9,7 +9,8 @@ La aplicación está diseñada para dos tipos de usuarios principales:
 - **Compradores:** Clientes que pueden realizar pedidos, gestionarlos y ver su historial.
 
 ## Modelo de Datos
-![image](https://github.com/user-attachments/assets/5b9ba7a6-c022-4a92-8560-d16fa14e9d08)
+![Imagen de WhatsApp 2024-09-21 a las 18 43 08_52fe1b72](https://github.com/user-attachments/assets/75c32ba6-3339-4fa4-bae5-92c7b3017ecd)
+
 
 *Nota*:
 Los metodos de clase estan definidos subrayados. Por ejemplo __ buscarVendedorPorId __
