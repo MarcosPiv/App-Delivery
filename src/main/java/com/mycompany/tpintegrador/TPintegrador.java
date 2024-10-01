@@ -15,10 +15,12 @@ public class TPintegrador {
         Vendedor vendedor1 = new Vendedor(1, "Churrassick Park", "Falsa, 123", new Coordenada(-34.603722, -58.381592));
         Vendedor vendedor2 = new Vendedor(2, "Aston Birra", "Alvear, 123", new Coordenada(-14.603722, -28.381592));
         Vendedor vendedor3 = new Vendedor(3, "Lo De Tito", "Hirigoyen, 123", new Coordenada(-44.603722, -18.381592));
-
+        Comida plato1 = new Comida(10, false, false, 20,"Plato1");
+        vendedor1.addItemMenu(plato1);
         vendedores.add(vendedor1);
         vendedores.add(vendedor2);
         vendedores.add(vendedor3);
+        System.out.print(vendedor1.getItemsMenu().getFirst().getNombre());
         
         boolean bandera = true;
         while (bandera) {
@@ -45,7 +47,7 @@ public class TPintegrador {
 
                     Vendedor vendedorPorId = Vendedor.buscarVendedorPorId(vendedores, numero);
                     if (vendedorPorId != null) {
-                        JOptionPane.showMessageDialog(null, "Vendedor encontrado por ID: " + vendedorPorId.getNombre());
+                        JOptionPane.showMessageDialog(null, "Vendedor encontrado por ID: " + vendedorPorId.getNombre()+vendedorPorId.getItemBebida().toString());
                     } else {
                         JOptionPane.showMessageDialog(null, "Vendedor no encontrado por ID.");
                     }
@@ -171,7 +173,7 @@ public class TPintegrador {
         listaDePedidos.add(pedido1);
         listaDePedidos.add(pedido2);
         listaDePedidos.add(pedido3);
-
+/*
         DetallePedido detallePedido1 = new DetallePedido(1, new Bebida(50,350), pedido1, 2, 700);
         DetallePedido detallePedido2 = new DetallePedido(2, new Bebida(51,350), pedido1, 2, 100);
         DetallePedido detallePedido3 = new DetallePedido(3, new Bebida(52,350), pedido1, 2, 200);
@@ -184,8 +186,39 @@ public class TPintegrador {
         pedido1.setDetallesPedido(new ArrayList<>(List.of(detallePedido1, detallePedido2, detallePedido3, detallePedido4)));
         pedido2.setDetallesPedido(new ArrayList<>(List.of(detallePedido5, detallePedido6, detallePedido7)));
         pedido3.setDetallesPedido(new ArrayList<>(List.of(detallePedido8)));
-
+*/
         ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory(listaDePedidos);
+
+        bandera = true;
+        while (bandera) {
+            String in = JOptionPane.showInputDialog("Ingrese el nombre del Vendedor para ver sus Items");
+            if(in == null){
+                break;
+            }
+            StringBuilder mensaje = new StringBuilder();
+            try {
+                List<Pedido> pedidosFiltrados = itemPedidoMemory.buscarItemPedidoPorRestaurante("Aston Birra");
+                mensaje.append("Restaurante: [");
+                for (int i = 0; i < pedidosFiltrados.size(); i++) {
+                    mensaje.append(pedidosFiltrados.get(i).getRestaurante().getNombre());
+                    if (i < pedidosFiltrados.size() - 1) {
+                        mensaje.append(", ");
+                    }
+                }
+                mensaje.append("]\n");
+            } catch (ItemNoEncontradoException e) {
+                mensaje.append(e.getMessage()).append("aaaaaaaaaaaaaaaaaaaaa\n");
+            }
+            JOptionPane.showMessageDialog(null, mensaje.toString());
+
+            bandera = false;
+            
+        }
+    
+        
+
+
+
         StringBuilder mensaje = new StringBuilder();
         try {
             List<Pedido> pedidosFiltrados = itemPedidoMemory.filtrarPedidosPorEstado("pendiente");
@@ -286,7 +319,7 @@ public class TPintegrador {
         }
 
         try {
-            List<Pedido> pedidosFiltrados = itemPedidoMemory.buscarItemPedidoPorRestaurante(vendedor1);
+            List<Pedido> pedidosFiltrados = itemPedidoMemory.buscarItemPedidoPorRestaurante(vendedor2.getNombre());
             mensaje.append("Restaurante: [");
             for (int i = 0; i < pedidosFiltrados.size(); i++) {
                 mensaje.append(pedidosFiltrados.get(i).getRestaurante().getNombre());

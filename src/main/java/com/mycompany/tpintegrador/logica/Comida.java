@@ -7,7 +7,13 @@ public class Comida extends ItemMenu {
     private boolean aptoCeliaco;
     private double pesoSinEnvase;
 
-    public Comida(int calorias, boolean aptoVegano, boolean aptoCeliaco, double pesoSinEnvase) {
+    public Comida(int id,int calorias, boolean aptoVegano, boolean aptoCeliaco, double pesoSinEnvase,String nombre, String descripcion, double precio,Categoria categoria, double peso  ) {
+        super.setId(id);
+        super.setNombre(nombre);
+        super.setDescripcion(descripcion);
+        super.setPrecio(precio);
+        super.setPeso(peso);
+        super.setCategoria(categoria);
         this.calorias = calorias;
         this.aptoVegano = aptoVegano;
         this.aptoCeliaco = aptoCeliaco;

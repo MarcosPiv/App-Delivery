@@ -22,6 +22,10 @@ public class ItemPedidoMemory implements ItemPedidoDao {
         this.listaDePedidos = listaDePedidos;
     }
 
+    public void addPedido(Pedido unPedido){
+        listaDePedidos.add(unPedido);
+    }
+
     @Override
     public List<Pedido> filtrarPedidosPorEstado(String estado) throws ItemNoEncontradoException {
         List<Pedido> pedidosFiltrados = listaDePedidos.stream()
@@ -100,12 +104,12 @@ public class ItemPedidoMemory implements ItemPedidoDao {
     }
 
     @Override
-    public List<Pedido> buscarItemPedidoPorRestaurante(Vendedor vendedor) throws ItemNoEncontradoException {
+    public List<Pedido> buscarItemPedidoPorRestaurante(String unNombreVendedor) throws ItemNoEncontradoException {
         List<Pedido> pedidosFiltrados = listaDePedidos.stream()
-                .filter(pedido -> pedido.getRestaurante().getId() == vendedor.getId())
+                .filter(pedido -> pedido.getRestaurante().getNombre() == unNombreVendedor)
                 .toList();
         if (pedidosFiltrados.isEmpty()) {
-            throw new ItemNoEncontradoException("No se encontraron ítems del restaurante " + vendedor.getNombre() + ".");
+            throw new ItemNoEncontradoException("No se encontraron ítems del restaurante " + unNombreVendedor + ".");
         }
         return pedidosFiltrados;
     }

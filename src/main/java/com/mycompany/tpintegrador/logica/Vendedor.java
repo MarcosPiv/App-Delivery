@@ -94,6 +94,10 @@ public class Vendedor {
 
         return distance;
     }
+
+    public void addItemMenu(ItemMenu unItemMenu){
+        itemsMenu.add(unItemMenu);
+    }
     
     public int getId() {
         return id;
@@ -109,6 +113,67 @@ public class Vendedor {
 
     public Coordenada getCoordenada() {
         return coordenada;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setCoordenada(Coordenada coordenada) {
+        this.coordenada = coordenada;
+    }
+
+    public ArrayList<ItemMenu> getItemsMenu() {
+        return itemsMenu;
+    }
+
+    public void setItemsMenu(ArrayList<ItemMenu> itemsMenu) {
+        this.itemsMenu = itemsMenu;
+    }
+
+    public boolean perteneceId(Vendedor unVendedor, int unId){
+        boolean pertenece = false;
+        for (ItemMenu unItemMenu: unVendedor.getItemsMenu()){
+            if(unItemMenu.getId() == unId){
+                pertenece=true;
+            }
+        }
+        return pertenece;
+    }
+
+    public ItemMenu getItemById(Vendedor unVendedor, int unId){
+        for (ItemMenu unItemMenu: unVendedor.getItemsMenu()){
+            if(unItemMenu.getId() == unId){
+                return unItemMenu;
+            }
+        }
+        return null;
+    }
+
+    public Pedido generarPedido(int[][] itemsyCant , Vendedor vendedor,Cliente unCliente){
+        Pedido nuevoPedido = new Pedido();
+        for (int i = 0; i < itemsyCant.length; i++) {
+            if(perteneceId(vendedor, itemsyCant[i][0])){
+               ItemMenu nuevoItemMenu = getItemById(vendedor, itemsyCant[i][0]);
+               DetallePedido nuevoDetalle = new DetallePedido(nuevoItemMenu.getId(), nuevoItemMenu, itemsyCant[i][1], nuevoItemMenu.getPrecio(), nuevoPedido);
+               nuevoPedido.agregarDetalle(nuevoDetalle);
+               nuevoPedido.setEstado(Estado.ENTREGADO);
+               nuevoPedido.setCliente(unCliente);
+            }
+        }
+        nuevoPedido.setPrecioTotal(nuevoPedido.calcularPrecioTotal());
+
+
+
+        return nuevoPedido;
     }
     
 }
