@@ -266,8 +266,7 @@ public class TPintegrador2 {
                             /*System.out.println(pedidoGenerado.getId());
                             System.out.println(pedidoGenerado.getEstado());
                             System.out.println(pedidoGenerado.getPrecioTotal());
-                            System.out.println(pedidoGenerado.getCliente().getNombre());
-                            */
+                            System.out.println(pedidoGenerado.getCliente().getNombre());*/
                             itemPedidoMemory.addPedido(pedidoGenerado);
                         
                         
@@ -292,6 +291,14 @@ public class TPintegrador2 {
                             break;
 
                             case 2:
+                                String cuit = JOptionPane.showInputDialog("Ingrese su cuit");
+                                String cbu = JOptionPane.showInputDialog("Ingrese su cbu");
+                                int cbuInt = Integer.parseInt(cbu);
+                                pedidoGenerado.pagarTransferencia(cbuInt, cuit, pedidoGenerado.getPrecioTotal());
+                                JOptionPane.showMessageDialog(null,"El cuit que ingreso es "+cuit+
+                                                            "\nEl cbu que ingreso es "+cbuInt+
+                                                            "\nEl prcio total es:"+ pedidoGenerado.getPrecioTotal()+
+                                                            "\nEl prcio total pagando con Mercado Pago seria: "+ pedidoGenerado.getTipoDePago().getImporte());
 
                             break;
                         }
