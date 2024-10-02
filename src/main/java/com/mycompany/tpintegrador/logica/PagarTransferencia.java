@@ -1,5 +1,4 @@
-package com.mycompany.tpintegrador.respository.impl;
-import com.mycompany.tpintegrador.respository.PagoStrategy;
+package com.mycompany.tpintegrador.logica;
 
 public class PagarTransferencia extends PagoStrategy{
     private int cbu;
@@ -13,6 +12,6 @@ public class PagarTransferencia extends PagoStrategy{
 
     @Override
     public double pagar(double unImporte){
-        return (unImporte + (unImporte*0.02));
+        return unImporte * 1.02;
     };
 }

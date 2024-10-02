@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
 
 public class Bebida extends ItemMenu {
     private double graduacionAlcoholica;

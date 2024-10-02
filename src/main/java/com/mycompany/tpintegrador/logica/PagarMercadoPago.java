@@ -1,5 +1,4 @@
-package com.mycompany.tpintegrador.respository.impl;
-import com.mycompany.tpintegrador.respository.PagoStrategy;
+package com.mycompany.tpintegrador.logica;
 
 public class PagarMercadoPago extends PagoStrategy{
     private String alias;
@@ -11,6 +10,6 @@ public class PagarMercadoPago extends PagoStrategy{
 
     @Override
     public double pagar(double unImporte){
-        return (unImporte+ (unImporte*0.04));
+        return unImporte * 1.04;
     }
 }

@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.respository;
+package com.mycompany.tpintegrador.logica;
 
 public abstract class PagoStrategy {
     protected double importe;

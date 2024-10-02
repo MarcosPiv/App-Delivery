@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
 
 import java.util.ArrayList;
 
@@ -21,19 +21,31 @@ public class Cliente {
     }
 
     public static Cliente buscarClientePorNombre(ArrayList<Cliente> clientes, String nombre) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getNombre().equalsIgnoreCase(nombre)) {
-                return cliente;
+        try {
+            for (Cliente cliente : clientes) {
+                if (cliente.getNombre().equalsIgnoreCase(nombre)) {
+                    return cliente;
+                }
             }
+        } catch (NullPointerException e) {
+            System.err.println("Se encontró un valor nulo: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
         return null;
     }
 
     public static Cliente buscarClientePorId(ArrayList<Cliente> clientes, int id) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getId() == id) {
-                return cliente;
+        try {
+            for (Cliente cliente : clientes) {
+                if (cliente.getId() == id) {
+                    return cliente;
+                }
             }
+        } catch (NullPointerException e) {
+            System.err.println("Se encontró un valor nulo: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
         return null;
     }

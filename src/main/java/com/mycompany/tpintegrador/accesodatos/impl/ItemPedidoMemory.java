@@ -1,9 +1,8 @@
-package com.mycompany.tpintegrador.respository.impl;
+package com.mycompany.tpintegrador.accesodatos.impl;
 
-import com.mycompany.tpintegrador.logica.Pedido;
-import com.mycompany.tpintegrador.logica.Vendedor;
+import com.mycompany.tpintegrador.logica.models.Pedido;
 import com.mycompany.tpintegrador.logica.businessExceptions.ItemNoEncontradoException;
-import com.mycompany.tpintegrador.respository.ItemPedidoDao;
+import com.mycompany.tpintegrador.accesodatos.ItemPedidoDao;
 
 import java.util.ArrayList;
 import java.util.Comparator;

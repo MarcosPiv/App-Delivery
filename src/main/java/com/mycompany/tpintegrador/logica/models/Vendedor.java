@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
 
 import java.util.ArrayList;
 
@@ -158,22 +158,33 @@ public class Vendedor {
         return null;
     }
 
-    public Pedido generarPedido(int[][] itemsyCant , Vendedor vendedor,Cliente unCliente){
+    public Pedido generarPedido(int[][] itemsyCant, Vendedor vendedor, Cliente unCliente) {
         Pedido nuevoPedido = new Pedido();
-        for (int i = 0; i < itemsyCant.length; i++) {
-            if(perteneceId(vendedor, itemsyCant[i][0])){
-               ItemMenu nuevoItemMenu = getItemById(vendedor, itemsyCant[i][0]);
-               DetallePedido nuevoDetalle = new DetallePedido(nuevoItemMenu.getId(), nuevoItemMenu, itemsyCant[i][1], nuevoItemMenu.getPrecio(), nuevoPedido);
-               nuevoPedido.agregarDetalle(nuevoDetalle);
-               nuevoPedido.setEstado(Estado.ENTREGADO);
-               nuevoPedido.setCliente(unCliente);
+        try {
+            for (int i = 0; i < itemsyCant.length; i++) {
+                if (perteneceId(vendedor, itemsyCant[i][0])) {
+                    ItemMenu nuevoItemMenu = getItemById(vendedor, itemsyCant[i][0]);
+                    if (nuevoItemMenu == null) {
+                        throw new IllegalArgumentException("ItemMenu not found for id: " + itemsyCant[i][0]);
+                    }
+                    DetallePedido nuevoDetalle = new DetallePedido(nuevoItemMenu.getId(), nuevoItemMenu, itemsyCant[i][1], nuevoItemMenu.getPrecio(), nuevoPedido);
+                    nuevoPedido.agregarDetalle(nuevoDetalle);
+                    nuevoPedido.setEstado(Estado.RECIBIDO);
+                    nuevoPedido.setCliente(unCliente);
+                }
             }
+            nuevoPedido.setPrecioTotal(nuevoPedido.calcularPrecioTotal());
+        } catch (NullPointerException e) {
+            System.err.println("Se encontró un valor nulo: " + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Índice de matriz fuera de límites: " + e.getMessage());
+        } catch (ClassCastException e) {
+            System.err.println("Error de conversión de clase: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Argumento ilegal: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
-        nuevoPedido.setPrecioTotal(nuevoPedido.calcularPrecioTotal());
-
-
-
         return nuevoPedido;
     }
-    
 }

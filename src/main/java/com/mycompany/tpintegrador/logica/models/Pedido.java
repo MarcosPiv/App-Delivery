@@ -1,11 +1,10 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
+
+import com.mycompany.tpintegrador.logica.PagarMercadoPago;
+import com.mycompany.tpintegrador.logica.PagarTransferencia;
+import com.mycompany.tpintegrador.logica.PagoStrategy;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import com.mycompany.tpintegrador.respository.PagoStrategy;
-import com.mycompany.tpintegrador.respository.impl.PagarMercadoPago;
-import com.mycompany.tpintegrador.respository.impl.PagarTransferencia;
 
 public class Pedido {
     private int id;
@@ -100,12 +99,22 @@ public class Pedido {
         this.detallesPedido = detallesPedido;
     }
 
-    public double calcularPrecioTotal(){
-        double total=0;
-        for(DetallePedido unDetalle: detallesPedido){
-            double totalPorDetalle = unDetalle.getCantidad()*unDetalle.getPrecio();
-            total = total + totalPorDetalle;
-
+    public double calcularPrecioTotal() {
+        double total = 0;
+        try {
+            for (DetallePedido unDetalle : detallesPedido) {
+                if (unDetalle == null) {
+                    throw new NullPointerException("DetallePedido es nulo");
+                }
+                double totalPorDetalle = unDetalle.getCantidad() * unDetalle.getPrecio();
+                total = total + totalPorDetalle;
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Se encontró un valor nulo: " + e.getMessage());
+        } catch (ArithmeticException e) {
+            System.err.println("Error aritmético: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
         return total;
     }
