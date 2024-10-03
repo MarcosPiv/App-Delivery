@@ -7,7 +7,7 @@ public class DetallePedido {
     private int cantidad;
     private double precio;
 
-    public DetallePedido(int id, ItemMenu item, int cantidad, double precio,Pedido pedido) {
+    public DetallePedido(int id, ItemMenu item, int cantidad, double precio, Pedido pedido) {
         this.id = id;
         this.item = item;
         this.pedido = pedido;
