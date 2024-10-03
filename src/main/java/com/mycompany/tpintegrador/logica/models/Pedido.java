@@ -1,7 +1,10 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
+
+import com.mycompany.tpintegrador.logica.PagarMercadoPago;
+import com.mycompany.tpintegrador.logica.PagarTransferencia;
+import com.mycompany.tpintegrador.logica.PagoStrategy;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Pedido {
     private int id;
@@ -10,6 +13,7 @@ public class Pedido {
     private double precioTotal;
     private ArrayList<DetallePedido> detallesPedido;
     private Estado estado;
+    private PagoStrategy tipoDePago;
 
     public Pedido() {
     detallesPedido = new ArrayList<>();
@@ -22,6 +26,21 @@ public class Pedido {
         this.precioTotal = precioTotal;
         this.detallesPedido = detallesPedido;
         this.estado = estado;
+    }
+    public PagoStrategy getTipoDePago() {
+        return tipoDePago;
+    }
+
+    public void setTipoDePago(PagoStrategy tipoDePago) {
+        this.tipoDePago = tipoDePago;
+    }
+
+    public void pagarMercadoPago(String alias,Double importeTotal){
+        tipoDePago = new PagarMercadoPago(alias,importeTotal);
+    }
+
+    public void pagarTransferencia(int cbu,String cuit,Double importeTotal){
+        tipoDePago = new PagarTransferencia(cbu,cuit,importeTotal);
     }
 
     public void agregarDetalle(DetallePedido detalle){
@@ -79,4 +98,25 @@ public class Pedido {
     public void setDetallesPedido(ArrayList<DetallePedido> detallesPedido) {
         this.detallesPedido = detallesPedido;
     }
+
+    public double calcularPrecioTotal() {
+        double total = 0;
+        try {
+            for (DetallePedido unDetalle : detallesPedido) {
+                if (unDetalle == null) {
+                    throw new NullPointerException("DetallePedido es nulo");
+                }
+                double totalPorDetalle = unDetalle.getCantidad() * unDetalle.getPrecio();
+                total = total + totalPorDetalle;
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Se encontró un valor nulo: " + e.getMessage());
+        } catch (ArithmeticException e) {
+            System.err.println("Error aritmético: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error inesperado: " + e.getMessage());
+        }
+        return total;
+    }
+
 }

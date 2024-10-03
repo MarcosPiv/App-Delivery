@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
 
 public class DetallePedido {
     private int id;
@@ -7,18 +7,7 @@ public class DetallePedido {
     private int cantidad;
     private double precio;
 
-    @Override
-    public String toString() {
-        return "DetallePedido{" +
-                "id=" + id +
-                ", item=" + item.getNombre() +
-                ", pedido=" + pedido.getRestaurante().getNombre() +
-                ", cantidad=" + cantidad +
-                ", precio=" + precio +
-                '}';
-    }
-
-    public DetallePedido(int id, ItemMenu item, Pedido pedido, int cantidad, double precio) {
+    public DetallePedido(int id, ItemMenu item, int cantidad, double precio, Pedido pedido) {
         this.id = id;
         this.item = item;
         this.pedido = pedido;
@@ -65,4 +54,5 @@ public class DetallePedido {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+
 }

@@ -1,10 +1,16 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
 
 public class Bebida extends ItemMenu {
     private double graduacionAlcoholica;
     private double tamanio;
 
-    public Bebida(double graduacionAlcoholica, double tamanio) {
+    public Bebida(int id,double graduacionAlcoholica, double tamanio,String nombre, String descripcion, double precio,Categoria categoria, double peso  ) {
+        super.setId(id);
+        super.setNombre(nombre);
+        super.setDescripcion(descripcion);
+        super.setPrecio(precio);
+        super.setPeso(peso);
+        super.setCategoria(categoria);
         this.graduacionAlcoholica = graduacionAlcoholica;
         this.tamanio = tamanio;
     }

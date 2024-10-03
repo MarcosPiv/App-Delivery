@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.models;
 
 public abstract class ItemMenu {
     private int id;
