@@ -1,12 +1,14 @@
 package com.mycompany.tpintegrador.logica.models;
 
-import com.mycompany.tpintegrador.logica.PagarMercadoPago;
-import com.mycompany.tpintegrador.logica.PagarTransferencia;
-import com.mycompany.tpintegrador.logica.PagoStrategy;
+import com.mycompany.tpintegrador.logica.strategy.PagarMercadoPago;
+import com.mycompany.tpintegrador.logica.strategy.PagarTransferencia;
+import com.mycompany.tpintegrador.logica.strategy.PagoStrategy;
+import com.mycompany.tpintegrador.logica.observer.Observable;
+import com.mycompany.tpintegrador.logica.observer.Observer;
 
 import java.util.ArrayList;
 
-public class Pedido {
+public class Pedido extends Observable {
     private int id;
     private Cliente cliente;
     private Vendedor restaurante;
@@ -14,6 +16,7 @@ public class Pedido {
     private ArrayList<DetallePedido> detallesPedido;
     private Estado estado;
     private PagoStrategy tipoDePago;
+    private ArrayList<Observer> observers = new ArrayList<>();
 
     public Pedido() {
     detallesPedido = new ArrayList<>();
@@ -119,4 +122,20 @@ public class Pedido {
         return total;
     }
 
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(this);
+        }
+    }
 }

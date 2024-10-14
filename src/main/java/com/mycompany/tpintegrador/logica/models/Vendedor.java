@@ -1,6 +1,8 @@
 package com.mycompany.tpintegrador.logica.models;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Vendedor {
     private int id;
@@ -8,6 +10,7 @@ public class Vendedor {
     private String direccion;
     private Coordenada coordenada;
     private ArrayList<ItemMenu> itemsMenu = new ArrayList<>();
+    private ArrayList<Pedido> listaDePedidos;
     
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenada) {
         this.id = id;
@@ -186,5 +189,20 @@ public class Vendedor {
             System.err.println("Ocurrió un error inesperado: " + e.getMessage());
         }
         return nuevoPedido;
+    }
+
+    public List<Pedido> buscarPedidosPorEstado(Estado estado) {
+        return listaDePedidos.stream()
+                .filter(pedido -> pedido.getEstado().equals(estado))
+                .collect(Collectors.toList());
+    }
+
+    public void actualizarEstadoPedido(int pedidoId, Estado nuevoEstado) {
+        for (Pedido pedido : listaDePedidos) {
+            if (pedido.getId() == pedidoId) {
+                pedido.setEstado(nuevoEstado);
+                break;
+            }
+        }
     }
 }

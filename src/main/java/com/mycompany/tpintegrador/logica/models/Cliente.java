@@ -1,8 +1,14 @@
 package com.mycompany.tpintegrador.logica.models;
 
-import java.util.ArrayList;
+import com.mycompany.tpintegrador.logica.strategy.PagarMercadoPago;
+import com.mycompany.tpintegrador.logica.strategy.PagarTransferencia;
+import com.mycompany.tpintegrador.logica.observer.Observer;
+import com.mycompany.tpintegrador.logica.strategy.PagoStrategy;
 
-public class Cliente {
+import java.util.ArrayList;
+import java.util.Date;
+
+public class Cliente implements Observer {
     private int id;
     private String cuit;
     private String email;
@@ -97,6 +103,21 @@ public class Cliente {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-   
 
+
+    @Override
+    public void update(Pedido pedido) {
+        if (pedido.getEstado() == Estado.EN_ENVIO) {
+            generarPago(pedido);
+        }
+    }
+
+    private void generarPago(Pedido pedido) {
+        Pago pago = new Pago(pedido.getPrecioTotal(), new Date());
+        if (pedido.getTipoDePago() instanceof PagarMercadoPago) {
+            pago.setTipoPago("Mercado Pago");
+        } else if (pedido.getTipoDePago() instanceof PagarTransferencia) {
+            pago.setTipoPago("Transferencia");
+        }
+    }
 }

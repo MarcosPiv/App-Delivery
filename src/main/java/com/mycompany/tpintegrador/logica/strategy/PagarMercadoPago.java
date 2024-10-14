@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.strategy;
 
 public class PagarMercadoPago extends PagoStrategy{
     private String alias;

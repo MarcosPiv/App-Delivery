@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.logica;
+package com.mycompany.tpintegrador.logica.strategy;
 
 public class PagarTransferencia extends PagoStrategy{
     private int cbu;
@@ -8,8 +8,7 @@ public class PagarTransferencia extends PagoStrategy{
         this.cbu=cbu;
         this.cuit=cuit;
         super.importe=this.pagar(importeTotal);
-    } 
-
+    }
     @Override
     public double pagar(double unImporte){
         return unImporte * 1.02;
