@@ -11,4 +11,11 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>com.mycompany.tpintegrador.TPintegrador</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version> <!-- Revisa la versión más reciente -->
+        </dependency>
+    </dependencies>
 </project>

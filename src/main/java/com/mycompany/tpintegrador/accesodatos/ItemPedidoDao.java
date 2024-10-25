@@ -14,4 +14,7 @@ public interface ItemPedidoDao {
     List<Pedido> ordenarPorId() throws ItemNoEncontradoException;
     List<Pedido> buscarItemPedidoPorRangoPrecio(double precioMin, double precioMax) throws ItemNoEncontradoException;
     List<Pedido> buscarItemPedidoPorRestaurante(String unNombreVendedor) throws ItemNoEncontradoException;
+
+    class PedidoDao {
+    }
 }

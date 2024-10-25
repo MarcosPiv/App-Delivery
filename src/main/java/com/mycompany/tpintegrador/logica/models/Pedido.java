@@ -68,6 +68,7 @@ public class Pedido extends Observable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+        notifyObservers();
     }
 
     public int getId() {

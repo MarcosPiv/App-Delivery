@@ -15,7 +15,9 @@ public class Cliente implements Observer {
     private String direccion;
     private Coordenada coordenada;
     private String nombre;
-    private ArrayList<Pedido> pedidos = new ArrayList<>();
+
+    public Cliente() {
+    }
 
     public Cliente(int id, String cuit, String email, String direccion, Coordenada coordenada, String nombre) {
         this.id = id;

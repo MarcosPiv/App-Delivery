@@ -1,4 +1,4 @@
-package com.mycompany.tpintegrador.accesodatos.impl;
+package com.mycompany.tpintegrador.accesodatos.impl.memory;
 
 import com.mycompany.tpintegrador.logica.models.Pedido;
 import com.mycompany.tpintegrador.logica.businessExceptions.ItemNoEncontradoException;

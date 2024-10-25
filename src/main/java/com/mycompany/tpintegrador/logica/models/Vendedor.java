@@ -11,7 +11,10 @@ public class Vendedor {
     private Coordenada coordenada;
     private ArrayList<ItemMenu> itemsMenu = new ArrayList<>();
     private ArrayList<Pedido> listaDePedidos;
-    
+
+    public Vendedor() {
+    }
+
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenada) {
         this.id = id;
         this.nombre = nombre;
