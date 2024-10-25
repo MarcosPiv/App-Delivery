@@ -1,0 +1,58 @@
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cuit VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    latitud DOUBLE NOT NULL,
+    longitud DOUBLE NOT NULL,
+    nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE categoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    descripcion VARCHAR(255) NOT NULL,
+    tipo_item ENUM('Comida', 'Bebida') NOT NULL
+);
+
+CREATE TABLE items_menu (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    precio DOUBLE NOT NULL,
+    categoria_id INT NOT NULL,
+    peso DOUBLE NOT NULL,
+    tipo ENUM('bebida', 'comida') NOT NULL,
+    graduacion_alcoholica DOUBLE DEFAULT NULL,
+    tamanio DOUBLE DEFAULT NULL,
+    calorias INT DEFAULT NULL,
+    apto_vegano BOOLEAN DEFAULT NULL,
+    apto_celiaco BOOLEAN DEFAULT NULL,
+    peso_sin_envase DOUBLE DEFAULT NULL,
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id) ON DELETE CASCADE
+);
+
+CREATE TABLE vendedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    latitud DOUBLE NOT NULL,
+    longitud DOUBLE NOT NULL
+);
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    vendedor_id INT NOT NULL,
+    precio_total DOUBLE NOT NULL,
+    estado ENUM('PENDIENTE', 'COMPLETADO', 'CANCELADO') NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (vendedor_id) REFERENCES vendedores(id) ON DELETE CASCADE
+);
+CREATE TABLE detalles_pedido (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT NOT NULL,
+    item_menu_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio DOUBLE NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (item_menu_id) REFERENCES items_menu(id) ON DELETE CASCADE
+);

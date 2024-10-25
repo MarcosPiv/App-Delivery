@@ -75,18 +75,6 @@ public class TPintegrador {
             clienteController.eliminarCliente(nuevoCliente.getId());
             System.out.println("Cliente eliminado: Cliente Prueba");
 
-
-
-
-
-
-
-
-
-
-
-
-
             // CASO DE PRUEBA 3: ItemsMenuController - CRUD
             System.out.println("\n--- CASO DE PRUEBA 3: ItemsMenuController ---");
 
@@ -113,9 +101,6 @@ public class TPintegrador {
             // Eliminar el item de menú
             itemsMenuController.eliminarItemMenu(nuevoItemMenu.getId());
             System.out.println("Item de menú eliminado: Bebida Prueba");
-
-
-
 
             // CASO DE PRUEBA 4: PedidoController - Crear Pedido
             System.out.println("\n--- CASO DE PRUEBA 4: PedidoController ---");
