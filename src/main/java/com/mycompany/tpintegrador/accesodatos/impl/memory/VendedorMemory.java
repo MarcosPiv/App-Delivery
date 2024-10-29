@@ -5,6 +5,7 @@ import com.mycompany.tpintegrador.logica.models.Vendedor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VendedorMemory implements VendedorDao {
     private List<Vendedor> listaVendedores = new ArrayList<>();
@@ -40,5 +41,12 @@ public class VendedorMemory implements VendedorDao {
                 .filter(v -> v.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Vendedor> buscarVendedorPorNombre(String nombre) {
+        return listaVendedores.stream()
+                .filter(v -> v.getNombre().toLowerCase().contains(nombre.toLowerCase())) // Coincidencias parciales y sin distinción de mayúsculas/minúsculas
+                .collect(Collectors.toList());
     }
 }

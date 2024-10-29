@@ -106,5 +106,29 @@ public class VendedorJDBC implements VendedorDao {
         }
         return null;
     }
+    public List<Vendedor> buscarVendedorPorNombre(String nombre) {
+        List<Vendedor> vendedores = new ArrayList<>();
+        String sql = "SELECT * FROM vendedores WHERE nombre LIKE ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + nombre + "%");  // Utiliza LIKE para buscar coincidencias parciales
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Coordenada coordenada = new Coordenada(rs.getDouble("latitud"), rs.getDouble("longitud"));
+                    Vendedor vendedor = new Vendedor(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            coordenada
+                    );
+                    vendedores.add(vendedor);  // Agregar cada vendedor encontrado a la lista
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vendedores;  // Devolver la lista de vendedores encontrados
+    }
+
 }
 

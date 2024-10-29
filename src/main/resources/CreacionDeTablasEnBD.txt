@@ -56,3 +56,4 @@ CREATE TABLE detalles_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
     FOREIGN KEY (item_menu_id) REFERENCES items_menu(id) ON DELETE CASCADE
 );
+-- utf8mb4_spanish_ci

@@ -51,6 +51,10 @@ public class VendedorController {
     public Vendedor buscarVendedor(int id) {
         return vendedorDao.buscarVendedorPorId(id);
     }
+
+    public List<Vendedor> buscarVendedorPorNombre(String nombre) {
+        return vendedorDao.buscarVendedorPorNombre(nombre);  // Llamada al DAO para obtener la lista de vendedores por nombre
+    }
 }
 
 

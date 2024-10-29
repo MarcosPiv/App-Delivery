@@ -9,5 +9,6 @@ public interface  VendedorDao {
     void actualizarVendedor(Vendedor vendedor);
     void eliminarVendedor(int id);
     Vendedor buscarVendedorPorId(int id);
+    List<Vendedor> buscarVendedorPorNombre(String nombre);
 }
 

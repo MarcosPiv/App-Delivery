@@ -2,6 +2,7 @@ package com.mycompany.tpintegrador;
 
 import com.mycompany.tpintegrador.accesodatos.impl.jdbc.*;
 import com.mycompany.tpintegrador.config.DatabaseConnection;
+import com.mycompany.tpintegrador.gui.VendedorView;
 import com.mycompany.tpintegrador.logica.controllers.*;
 import com.mycompany.tpintegrador.logica.models.*;
 
@@ -13,6 +14,16 @@ public class TPintegrador {
 
     public static void main(String[] args) {
 
+        //Ejecutar la interfaz gráfica
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                VendedorView vendedorView = new VendedorView();  //
+                vendedorView.setVisible(true);
+                vendedorView.setLocationRelativeTo(null);
+            }
+        });
+
+        /*
         try {
             // Conectar a la base de datos
             Connection connection = DatabaseConnection.getConnection();
@@ -121,5 +132,6 @@ public class TPintegrador {
         } catch (Exception e) {
             e.printStackTrace();
         }
+         */
     }
 }
