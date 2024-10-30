@@ -17,7 +17,7 @@ public class TPintegrador {
         //Ejecutar la interfaz gráfica
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                VendedorView vendedorView = new VendedorView();  //
+                VendedorView vendedorView = new VendedorView(); // Instanciar la vista
                 vendedorView.setVisible(true);
                 vendedorView.setLocationRelativeTo(null);
             }

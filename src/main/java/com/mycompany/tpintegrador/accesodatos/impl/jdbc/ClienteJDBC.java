@@ -118,5 +118,30 @@ public class ClienteJDBC implements ClienteDao {
 
         return null;
     }
+
+    @Override
+    public List<Cliente> buscarClientePorNombre(String nombre) {
+        List<Cliente> clientes = new ArrayList<>();
+        String sql = "SELECT * FROM clientes WHERE nombre LIKE ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + nombre + "%");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Cliente cliente = new Cliente(
+                            rs.getInt("id"),
+                            rs.getString("cuit"),
+                            rs.getString("email"),
+                            rs.getString("direccion"),
+                            new Coordenada(rs.getDouble("latitud"), rs.getDouble("longitud")),
+                            rs.getString("nombre")
+                    );
+                    clientes.add(cliente);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientes;
+    }
 }
 

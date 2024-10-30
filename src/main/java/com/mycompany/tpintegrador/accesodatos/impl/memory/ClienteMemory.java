@@ -5,6 +5,7 @@ import com.mycompany.tpintegrador.logica.models.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClienteMemory implements ClienteDao {
 
@@ -42,5 +43,12 @@ public class ClienteMemory implements ClienteDao {
                 .filter(c -> c.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Cliente> buscarClientePorNombre(String nombre) {
+        return clientes.stream()
+                .filter(c -> c.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

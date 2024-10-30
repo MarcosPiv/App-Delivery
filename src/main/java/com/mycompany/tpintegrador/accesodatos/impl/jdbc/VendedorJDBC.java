@@ -110,7 +110,7 @@ public class VendedorJDBC implements VendedorDao {
         List<Vendedor> vendedores = new ArrayList<>();
         String sql = "SELECT * FROM vendedores WHERE nombre LIKE ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, "%" + nombre + "%");  // Utiliza LIKE para buscar coincidencias parciales
+            pstmt.setString(1, "%" + nombre + "%");  //LIKE para buscar coincidencias parciales
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -121,13 +121,13 @@ public class VendedorJDBC implements VendedorDao {
                             rs.getString("direccion"),
                             coordenada
                     );
-                    vendedores.add(vendedor);  // Agregar cada vendedor encontrado a la lista
+                    vendedores.add(vendedor);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return vendedores;  // Devolver la lista de vendedores encontrados
+        return vendedores;
     }
 
 }

@@ -56,5 +56,9 @@ public class ClienteController {
     public Cliente buscarCliente(int id) {
         return clienteDao.buscarCliente(id);
     }
+
+    public List<Cliente> buscarClientePorNombre(String nombre) {
+        return clienteDao.buscarClientePorNombre(nombre);
+    }
 }
 
