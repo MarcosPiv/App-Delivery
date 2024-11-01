@@ -1,8 +1,16 @@
 package com.mycompany.tpintegrador.gui;
+import com.mycompany.tpintegrador.accesodatos.ClienteDao;
+import com.mycompany.tpintegrador.accesodatos.PedidoDao;
 import com.mycompany.tpintegrador.accesodatos.VendedorDao;
+import com.mycompany.tpintegrador.accesodatos.impl.jdbc.ClienteJDBC;
+import com.mycompany.tpintegrador.accesodatos.impl.jdbc.PedidoJDBC;
 import com.mycompany.tpintegrador.accesodatos.impl.jdbc.VendedorJDBC;
 import com.mycompany.tpintegrador.config.DatabaseConnection;
+import com.mycompany.tpintegrador.logica.controllers.PedidoController;
 import com.mycompany.tpintegrador.logica.controllers.VendedorController;
+import com.mycompany.tpintegrador.logica.models.Cliente;
+import com.mycompany.tpintegrador.logica.models.Estado;
+import com.mycompany.tpintegrador.logica.models.Pedido;
 import com.mycompany.tpintegrador.logica.models.Vendedor;
 
 import java.sql.Connection;
@@ -14,6 +22,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +30,7 @@ import java.util.List;
  * @author mpivi
  */
 public class PedidosView extends javax.swing.JFrame {
-    private VendedorController vendedorController;
+    private PedidoController pedidoController;
     /**
      * Creates new form VendedorView
      */
@@ -30,11 +39,14 @@ public class PedidosView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         try {
             Connection connection = DatabaseConnection.getConnection();
+            PedidoDao pedidoDao = new PedidoJDBC(connection);
+            ClienteDao clienteDao = new ClienteJDBC(connection);
             VendedorDao vendedorDao = new VendedorJDBC(connection);
-            vendedorController = new VendedorController(vendedorDao);
+
+            pedidoController = new PedidoController(pedidoDao, clienteDao, vendedorDao);
 
             customTableSettings();
-            cargarVendedores();
+            cargarPedidos();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace(); // Log the exception
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
@@ -52,18 +64,18 @@ public class PedidosView extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), jTable1));
     }
 
-    private void cargarVendedores(){
+    private void cargarPedidos() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
-        // Obtener la lista de vendedores
-        vendedorController.mostrarListaVendedor().forEach(vendedor -> {
+        // Obtener la lista de pedidos
+        pedidoController.listarPedidos().forEach(pedido -> {
             model.addRow(new Object[]{
-                    vendedor.getId(),
-                    vendedor.getNombre(),
-                    vendedor.getDireccion(),
-                    vendedor.getCoordenada().getLat(),
-                    vendedor.getCoordenada().getLng(),
+                    pedido.getId(),
+                    pedido.getCliente().getId(),
+                    pedido.getRestaurante().getId(),
+                    pedido.getPrecioTotal(),
+                    pedido.getEstado().toString(),
                     "Editar",
                     "Eliminar"
             });
@@ -103,7 +115,7 @@ public class PedidosView extends javax.swing.JFrame {
                     fireEditingStopped();
                     int row = table.getSelectedRow();
                     if (label.equals("Eliminar")) {
-                        eliminarVendedor(row);
+                        eliminarPedido(row);
                     } else if (label.equals("Editar")) {
                         mostrarVentanaModificar(row); // Mostrar la ventana de modificación
                     }
@@ -136,19 +148,20 @@ public class PedidosView extends javax.swing.JFrame {
             super.fireEditingStopped();
         }
 
-        private void eliminarVendedor(int row) {
+        private void eliminarPedido(int row) {
             int id = (int) jTable1.getValueAt(row, 0);
             int confirm = JOptionPane.showConfirmDialog(button, "¿Está seguro de eliminar este Pedido?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                vendedorController.eliminarVendedor(id);
-                cargarVendedores();
+                pedidoController.eliminarPedido(id);
+                cargarPedidos();
                 JOptionPane.showMessageDialog(button, "Pedido eliminado.");
             } else {
                 System.out.println("Eliminación cancelada.");
             }
         }
+
         private void mostrarVentanaModificar(int row) {
-            JFrame modificarFrame = new JFrame("Modificar Vendedor");
+            JFrame modificarFrame = new JFrame("Modificar Pedido");
             modificarFrame.setSize(400, 300);
             modificarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             modificarFrame.setLocationRelativeTo(null);
@@ -156,36 +169,21 @@ public class PedidosView extends javax.swing.JFrame {
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-            int id = (int) jTable1.getValueAt(row, 0);  // Obtenemos el ID del vendedor
-            String nombreActual = (String) jTable1.getValueAt(row, 1);
-            String direccionActual = (String) jTable1.getValueAt(row, 2);
-            double latitudActual = (double) jTable1.getValueAt(row, 3);
-            double longitudActual = (double) jTable1.getValueAt(row, 4);
+            int id = (int) jTable1.getValueAt(row, 0);
+            String estadoActual = (String) jTable1.getValueAt(row, 4);
 
-            JTextField txtNombre = new JTextField(nombreActual);
-            JTextField txtDireccion = new JTextField(direccionActual);
-            JTextField txtLatitud = new JTextField(String.valueOf(latitudActual));
-            JTextField txtLongitud = new JTextField(String.valueOf(longitudActual));
+            JTextField txtEstado = new JTextField(estadoActual);
 
-            panel.add(new JLabel("Nombre:"));
-            panel.add(txtNombre);
-            panel.add(new JLabel("Dirección:"));
-            panel.add(txtDireccion);
-            panel.add(new JLabel("Latitud:"));
-            panel.add(txtLatitud);
-            panel.add(new JLabel("Longitud:"));
-            panel.add(txtLongitud);
+            panel.add(new JLabel("Estado:"));
+            panel.add(txtEstado);
 
             JButton btnGuardar = new JButton("Guardar Cambios");
             btnGuardar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Actualizar el vendedor a través del controlador
-                    vendedorController.modificarVendedor(id, txtNombre.getText(), txtDireccion.getText(),
-                            Double.parseDouble(txtLatitud.getText()), Double.parseDouble(txtLongitud.getText()));
-
-                    cargarVendedores();
-
+                    // Actualizar el pedido a través del controlador
+                    pedidoController.cambiarEstadoPedido(id, Estado.valueOf(txtEstado.getText().toUpperCase()));
+                    cargarPedidos();
                     modificarFrame.dispose();
                 }
             });
@@ -481,55 +479,70 @@ public class PedidosView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         try {
-            String nombre = jTextField3.getText();
-            String direccion = jTextField4.getText();
-            double latitud = Double.parseDouble(jTextField6.getText());
-            double longitud = Double.parseDouble(jTextField5.getText());
+            int clienteId = Integer.parseInt(jTextField4.getText());
+            int vendedorId = Integer.parseInt(jTextField3.getText());
+            double precioTotal = Double.parseDouble(jTextField5.getText());
+            Estado estado = Estado.valueOf(jTextField6.getText().toUpperCase());
 
-            vendedorController.crearNuevoVendedor(nombre, direccion, latitud, longitud);
+            // Assuming Cliente and Vendedor are retrieved via their IDs
+            Cliente cliente = pedidoController.buscarClientePorId(clienteId);
+            Vendedor vendedor = pedidoController.buscarVendedorPorId(vendedorId);
 
+            if (cliente == null || vendedor == null) {
+                JOptionPane.showMessageDialog(this, "Cliente o Vendedor no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Creating a new Pedido with an empty DetallePedido list for simplicity
+            pedidoController.crearNuevoPedido(cliente, vendedor, new ArrayList<>(), estado);
+
+            // Clear input fields
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField5.setText("");
             jTextField6.setText("");
 
-            cargarVendedores();
+            // Reload orders
+            cargarPedidos();
 
-            JOptionPane.showMessageDialog(this, "Vendedor agregado con éxito.");
+            JOptionPane.showMessageDialog(this, "Pedido agregado con éxito.");
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "La latitud y la longitud deben ser valores numéricos y con punto(.)", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ClienteID, VendedorID y Precio Total deben ser valores numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "El estado ingresado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String textoBuscado = jTextField1.getText();
+        String textoBuscado = jTextField1.getText().trim();
 
-        if (textoBuscado.trim().isEmpty()) {
-            cargarVendedores();
+        if (textoBuscado.isEmpty()) {
+            cargarPedidos();
         } else {
-            List<Vendedor> resultados = vendedorController.buscarVendedorPorNombre(textoBuscado);
+            try {
+                int idBuscado = Integer.parseInt(textoBuscado);
+                Pedido pedido = pedidoController.buscarPedidoPorId(idBuscado);
 
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);  // Limpiar todas las filas actuales
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
 
-            if (resultados.isEmpty()) {
-                // Si no se encontraron resultados
-                JOptionPane.showMessageDialog(this, "No se encontraron vendedores con el nombre: " + textoBuscado);
-            } else {
-                // Agregar los resultados de la búsqueda a la tabla
-                for (Vendedor vendedor : resultados) {
-                    Object[] fila = {
-                            vendedor.getId(),
-                            vendedor.getNombre(),
-                            vendedor.getDireccion(),
-                            vendedor.getCoordenada().getLat(),
-                            vendedor.getCoordenada().getLng(),
+                if (pedido != null) {
+                    model.addRow(new Object[]{
+                            pedido.getId(),
+                            pedido.getCliente().getId(),
+                            pedido.getRestaurante().getId(),
+                            pedido.getPrecioTotal(),
+                            pedido.getEstado().toString(),
                             "Editar",
                             "Eliminar"
-                    };
-                    model.addRow(fila);
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró un pedido con ID: " + idBuscado);
                 }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un número válido para el ID del pedido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed

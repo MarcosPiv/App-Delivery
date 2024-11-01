@@ -1,6 +1,8 @@
 package com.mycompany.tpintegrador.logica.controllers;
 
+import com.mycompany.tpintegrador.accesodatos.ClienteDao;
 import com.mycompany.tpintegrador.accesodatos.PedidoDao;
+import com.mycompany.tpintegrador.accesodatos.VendedorDao;
 import com.mycompany.tpintegrador.logica.models.*;
 
 import java.util.ArrayList;
@@ -9,9 +11,13 @@ import java.util.List;
 public class PedidoController {
 
     private PedidoDao pedidoDao;
+    private ClienteDao clienteDao;
+    private VendedorDao vendedorDao;
 
-    public PedidoController(PedidoDao pedidoDao) {
+    public PedidoController(PedidoDao pedidoDao, ClienteDao clienteDao, VendedorDao vendedorDao) {
         this.pedidoDao = pedidoDao;
+        this.clienteDao = clienteDao;
+        this.vendedorDao = vendedorDao;
     }
 
 
@@ -73,6 +79,14 @@ public class PedidoController {
             return pedidoExistente.getDetallesPedido();
         }
         return null;
+    }
+
+    public Cliente buscarClientePorId(int clienteId) {
+        return clienteDao.buscarCliente(clienteId);
+    }
+
+    public Vendedor buscarVendedorPorId(int vendedorId) {
+        return vendedorDao.buscarVendedorPorId(vendedorId);
     }
 }
 
