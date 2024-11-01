@@ -27,7 +27,7 @@ import java.util.List;
 public class ItemsMenuView extends javax.swing.JFrame {
     private ItemsMenuController itemsMenuController;
     /**
-     * Creates new form VendedorView
+     * Creates new form ItemMenuVIew
      */
     public ItemsMenuView() {
         initComponents();
@@ -41,7 +41,7 @@ public class ItemsMenuView extends javax.swing.JFrame {
             customTableSettings();
             cargarItemsMenu();
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // Log the exception
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -120,7 +120,7 @@ public class ItemsMenuView extends javax.swing.JFrame {
                     if (label.equals("Eliminar")) {
                         eliminarItemMenu(row);
                     } else if (label.equals("Editar")) {
-                        mostrarVentanaModificar(row); // Mostrar la ventana de modificación
+                        mostrarVentanaModificar(row); //Mostrar la ventana de modificación
                     }
                 }
             });
@@ -172,7 +172,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-            // Get current values from the selected row
             int id = (int) jTable1.getValueAt(row, 0);
             String nombreActual = (String) jTable1.getValueAt(row, 1);
             String descripcionActual = (String) jTable1.getValueAt(row, 2);
@@ -187,7 +186,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
             boolean aptoCeliacoActual = jTable1.getValueAt(row, 11) != null && (boolean) jTable1.getValueAt(row, 11);
             double pesoSinEnvaseActual = jTable1.getValueAt(row, 12) != null ? (double) jTable1.getValueAt(row, 12) : 0.0;
 
-            // Create text fields and set current values
             JTextField txtNombre = new JTextField(nombreActual);
             JTextField txtDescripcion = new JTextField(descripcionActual);
             JTextField txtPrecio = new JTextField(String.valueOf(precioActual));
@@ -201,7 +199,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
             JCheckBox chkAptoCeliaco = new JCheckBox("", aptoCeliacoActual);
             JTextField txtPesoSinEnvase = new JTextField(String.valueOf(pesoSinEnvaseActual));
 
-            // Add fields to panel with labels
             panel.add(new JLabel("Nombre:"));
             panel.add(txtNombre);
             panel.add(new JLabel("Descripcion:"));
@@ -245,7 +242,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
                         boolean nuevoAptoCeliaco = chkAptoCeliaco.isSelected();
                         double nuevoPesoSinEnvase = Double.parseDouble(txtPesoSinEnvase.getText());
 
-                        // Update the item through the controller
                         itemsMenuController.modificarItemMenu(id, nuevoNombre, nuevaDescripcion, nuevoPrecio, nuevoPeso,
                                 nuevoTipo, nuevaCategoriaId, nuevaGraduacion, nuevoTamanio, nuevasCalorias,
                                 nuevoAptoVegano, nuevoAptoCeliaco, nuevoPesoSinEnvase);
@@ -321,6 +317,11 @@ public class ItemsMenuView extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton3.setText("Vendedores");
         jButton3.setToolTipText("");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton2.setText("Clientes");
@@ -647,9 +648,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        //ItemsMenuView itemsmenuView  = new ItemsMenuView();
-        //itemsmenuView.setVisible(true);
-        //this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -662,7 +660,7 @@ public class ItemsMenuView extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         try {
-            // Captura de datos comunes
+            //datos comunes
             String nombre = jTextField4.getText();
             String descripcion = jTextField3.getText();
             double precio = Double.parseDouble(jTextField7.getText());
@@ -672,7 +670,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
 
             // Validación según el tipo de ItemMenu
             if ("Bebida".equalsIgnoreCase(tipo)) {
-                // Validaciones específicas para Bebida
                 double graduacionAlcoholica;
                 double tamanio;
 
@@ -688,7 +685,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
                 itemsMenuController.crearNuevoItemMenu(nombre, descripcion, precio, peso, tipo, categoriaId, graduacionAlcoholica, tamanio, 0, false, false, 0.0);
 
             } else if ("Comida".equalsIgnoreCase(tipo)) {
-                // Validaciones específicas para Comida
                 int calorias;
                 boolean aptoVegano = jCheckBox1.isSelected();
                 boolean aptoCeliaco = jCheckBox2.isSelected();
@@ -709,7 +705,6 @@ public class ItemsMenuView extends javax.swing.JFrame {
                 return;
             }
 
-            // Limpiar campos después de agregar el ítem
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField7.setText("");
@@ -723,7 +718,7 @@ public class ItemsMenuView extends javax.swing.JFrame {
             jCheckBox2.setSelected(false);
             jTextField11.setText("");
 
-            // Recargar la tabla para reflejar el nuevo ítem
+            //Recargar la tabla para reflejar el nuevo ítem
             cargarItemsMenu();
             JOptionPane.showMessageDialog(this, "Item de menú agregado con éxito.");
 
@@ -737,20 +732,18 @@ public class ItemsMenuView extends javax.swing.JFrame {
         String textoBuscado = jTextField1.getText();
 
         if (textoBuscado.trim().isEmpty()) {
-            cargarItemsMenu(); // Load all items if the search field is empty
+            cargarItemsMenu();
         } else {
             try {
                 int itemId = Integer.parseInt(textoBuscado);
                 ItemMenu itemMenu = itemsMenuController.buscarItemMenu(itemId);
 
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                model.setRowCount(0);  // Clear current rows
+                model.setRowCount(0);
 
                 if (itemMenu == null) {
-                    // If no item was found with the specified ID
                     JOptionPane.showMessageDialog(this, "No se encontró un ítem con el ID: " + itemId);
                 } else {
-                    // Add the found item to the table
                     Object[] fila = {
                             itemMenu.getId(),
                             itemMenu.getNombre(),
@@ -775,6 +768,13 @@ public class ItemsMenuView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        VendedorView vendedorView = new VendedorView();
+        vendedorView.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     /**

@@ -36,7 +36,7 @@ public class VendedorView extends javax.swing.JFrame {
             customTableSettings();
             cargarVendedores();
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // Log the exception
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -54,9 +54,8 @@ public class VendedorView extends javax.swing.JFrame {
 
     private void cargarVendedores(){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Limpiar la tabla
+        model.setRowCount(0);
 
-        // Obtener la lista de vendedores
         vendedorController.mostrarListaVendedor().forEach(vendedor -> {
             model.addRow(new Object[]{
                     vendedor.getId(),
@@ -105,7 +104,7 @@ public class VendedorView extends javax.swing.JFrame {
                     if (label.equals("Eliminar")) {
                         eliminarVendedor(row);
                     } else if (label.equals("Editar")) {
-                        mostrarVentanaModificar(row); // Mostrar la ventana de modificación
+                        mostrarVentanaModificar(row); //Mostrar la ventana de modificación
                     }
                 }
             });
@@ -138,11 +137,11 @@ public class VendedorView extends javax.swing.JFrame {
 
         private void eliminarVendedor(int row) {
             int id = (int) jTable1.getValueAt(row, 0);
-            int confirm = JOptionPane.showConfirmDialog(button, "¿Está seguro de eliminar este Cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(button, "¿Está seguro de eliminar este Vendedor?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 vendedorController.eliminarVendedor(id);
                 cargarVendedores();
-                JOptionPane.showMessageDialog(button, "Item eliminado.");
+                JOptionPane.showMessageDialog(button, "Vendedor eliminado.");
             } else {
                 System.out.println("Eliminación cancelada.");
             }
@@ -156,7 +155,7 @@ public class VendedorView extends javax.swing.JFrame {
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-            int id = (int) jTable1.getValueAt(row, 0);  // Obtenemos el ID del vendedor
+            int id = (int) jTable1.getValueAt(row, 0);
             String nombreActual = (String) jTable1.getValueAt(row, 1);
             String direccionActual = (String) jTable1.getValueAt(row, 2);
             double latitudActual = (double) jTable1.getValueAt(row, 3);
@@ -180,17 +179,15 @@ public class VendedorView extends javax.swing.JFrame {
             btnGuardar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Actualizar el vendedor a través del controlador
+                    //Actualizar el vendedor a través del controlador
                     vendedorController.modificarVendedor(id, txtNombre.getText(), txtDireccion.getText(),
                             Double.parseDouble(txtLatitud.getText()), Double.parseDouble(txtLongitud.getText()));
 
-                    // Actualizamos la tabla para reflejar los cambios
                     cargarVendedores();
 
                     modificarFrame.dispose();
                 }
             });
-
             panel.add(btnGuardar);
             modificarFrame.add(panel);
             modificarFrame.setVisible(true);
@@ -513,13 +510,13 @@ public class VendedorView extends javax.swing.JFrame {
             List<Vendedor> resultados = vendedorController.buscarVendedorPorNombre(textoBuscado);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);  // Limpiar todas las filas actuales
+            model.setRowCount(0);  //Limpiar todas las filas actuales
 
             if (resultados.isEmpty()) {
-                // Si no se encontraron resultados
+                //Si no se encontraron resultados
                 JOptionPane.showMessageDialog(this, "No se encontraron vendedores con el nombre: " + textoBuscado);
             } else {
-                // Agregar los resultados de la búsqueda a la tabla
+                //Agregar los resultados de la búsqueda a la tabla
                 for (Vendedor vendedor : resultados) {
                     Object[] fila = {
                             vendedor.getId(),

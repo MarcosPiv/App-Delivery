@@ -56,4 +56,11 @@ CREATE TABLE detalles_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
     FOREIGN KEY (item_menu_id) REFERENCES items_menu(id) ON DELETE CASCADE
 );
--- utf8mb4_spanish_ci
+
+INSERT INTO `categoria` (`id`, `descripcion`, `tipo_item`) VALUES
+(1, 'Frituras', 'Comida'),
+(2, 'Carnes', 'Comida'),
+(3, 'Vinos', 'Bebida'),
+(4, 'Tequila', 'Bebida');
+
+-- hacer la base de datos en utf8mb4_spanish_ci
