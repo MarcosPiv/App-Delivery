@@ -555,15 +555,16 @@ public class ItemsMenuView extends javax.swing.JFrame {
                             .addGap(29, 29, 29)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel12)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel15)
-                                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel12)
+                                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel15)))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -660,23 +661,55 @@ public class ItemsMenuView extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        //validar campos
         try {
+            // Captura de datos comunes
             String nombre = jTextField4.getText();
             String descripcion = jTextField3.getText();
             double precio = Double.parseDouble(jTextField7.getText());
             double peso = Double.parseDouble(jTextField5.getText());
             int categoriaId = Integer.parseInt(jTextField6.getText());
-            String tipo = (String) jComboBox1.getSelectedItem();
-            double graduacion = Double.parseDouble(jTextField14.getText());
-            double tamanio = Double.parseDouble(jTextField9.getText());
-            int calorias = Integer.parseInt(jTextField10.getText());
-            boolean aptoVegano = jCheckBox1.isSelected();
-            boolean aptoCeliaco = jCheckBox2.isSelected();
-            double pesoSinEnvase = Double.parseDouble(jTextField11.getText());
+            String tipo = jComboBox1.getSelectedItem().toString();
 
-            itemsMenuController.crearNuevoItemMenu(nombre, descripcion, precio, peso, tipo, categoriaId, graduacion, tamanio, calorias, aptoVegano, aptoCeliaco, pesoSinEnvase);
+            // Validación según el tipo de ItemMenu
+            if ("Bebida".equalsIgnoreCase(tipo)) {
+                // Validaciones específicas para Bebida
+                double graduacionAlcoholica;
+                double tamanio;
 
+                try {
+                    graduacionAlcoholica = Double.parseDouble(jTextField9.getText());
+                    tamanio = Double.parseDouble(jTextField10.getText());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Graduación y Tamaño deben ser numéricos para una bebida.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Crear el ítem como Bebida
+                itemsMenuController.crearNuevoItemMenu(nombre, descripcion, precio, peso, tipo, categoriaId, graduacionAlcoholica, tamanio, 0, false, false, 0.0);
+
+            } else if ("Comida".equalsIgnoreCase(tipo)) {
+                // Validaciones específicas para Comida
+                int calorias;
+                boolean aptoVegano = jCheckBox1.isSelected();
+                boolean aptoCeliaco = jCheckBox2.isSelected();
+                double pesoSinEnvase;
+
+                try {
+                    calorias = Integer.parseInt(jTextField11.getText());
+                    pesoSinEnvase = Double.parseDouble(jTextField14.getText());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Calorías y Peso sin Envase deben ser numéricos para una comida.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Crear el ítem como Comida
+                itemsMenuController.crearNuevoItemMenu(nombre, descripcion, precio, peso, tipo, categoriaId, 0.0, 0.0, calorias, aptoVegano, aptoCeliaco, pesoSinEnvase);
+            } else {
+                JOptionPane.showMessageDialog(this, "Tipo de ítem no válido. Seleccione 'Bebida' o 'Comida'.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Limpiar campos después de agregar el ítem
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField7.setText("");
@@ -690,12 +723,15 @@ public class ItemsMenuView extends javax.swing.JFrame {
             jCheckBox2.setSelected(false);
             jTextField11.setText("");
 
+            // Recargar la tabla para reflejar el nuevo ítem
             cargarItemsMenu();
             JOptionPane.showMessageDialog(this, "Item de menú agregado con éxito.");
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Los campos deben ser numéricos donde corresponda.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Los campos comunes deben ser numéricos donde corresponda.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }
+//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         String textoBuscado = jTextField1.getText();
