@@ -162,7 +162,7 @@ public class PedidosView extends javax.swing.JFrame {
 
         private void mostrarVentanaModificar(int row) {
             JFrame modificarFrame = new JFrame("Modificar Pedido");
-            modificarFrame.setSize(400, 300);
+            modificarFrame.setSize(300, 120);
             modificarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             modificarFrame.setLocationRelativeTo(null);
 
@@ -172,17 +172,20 @@ public class PedidosView extends javax.swing.JFrame {
             int id = (int) jTable1.getValueAt(row, 0);
             String estadoActual = (String) jTable1.getValueAt(row, 4);
 
-            JTextField txtEstado = new JTextField(estadoActual);
+            // Create JComboBox for Estado with predefined options
+            JComboBox<String> comboEstado = new JComboBox<>(new String[] { "PENDIENTE", "EN_PREPARACION", "EN_ENVIO", "RECIBIDO" });
+            comboEstado.setSelectedItem(estadoActual); // Set the current Estado as the selected item
 
             panel.add(new JLabel("Estado:"));
-            panel.add(txtEstado);
+            panel.add(comboEstado);
 
             JButton btnGuardar = new JButton("Guardar Cambios");
             btnGuardar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Actualizar el pedido a través del controlador
-                    pedidoController.cambiarEstadoPedido(id, Estado.valueOf(txtEstado.getText().toUpperCase()));
+                    // Update the Estado through the controller using the selected value
+                    String estadoSeleccionado = (String) comboEstado.getSelectedItem();
+                    pedidoController.cambiarEstadoPedido(id, Estado.valueOf(estadoSeleccionado));
                     cargarPedidos();
                     modificarFrame.dispose();
                 }
@@ -193,7 +196,6 @@ public class PedidosView extends javax.swing.JFrame {
             modificarFrame.setVisible(true);
         }
     }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,19 +222,25 @@ public class PedidosView extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vendedores");
+        setPreferredSize(new java.awt.Dimension(1350, 700));
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton3.setText("Vendedores");
         jButton3.setToolTipText("");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton2.setText("Clientes");
@@ -253,6 +261,11 @@ public class PedidosView extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setText("Pedidos");
         jButton1.setPreferredSize(new java.awt.Dimension(94, 33));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -329,8 +342,6 @@ public class PedidosView extends javax.swing.JFrame {
 
         jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Estado: ");
 
@@ -342,6 +353,8 @@ public class PedidosView extends javax.swing.JFrame {
                 jButton6ActionPerformed(evt);
             }
         });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PENDIENTE", "EN_PREPARACION", "EN_ENVIO", "RECIBIDO" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -361,18 +374,16 @@ public class PedidosView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(70, 70, 70)
+                    .addComponent(jComboBox1, 0, 236, Short.MAX_VALUE)
+                    .addComponent(jTextField5))
+                .addGap(148, 148, 148)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,11 +404,12 @@ public class PedidosView extends javax.swing.JFrame {
                                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel6))
                                         .addGap(15, 15, 15)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel7))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(52, 52, 52))))
@@ -474,8 +486,7 @@ public class PedidosView extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         //validar campos
-        if (jTextField3.getText().trim().isEmpty() || jTextField4.getText().trim().isEmpty() ||
-                jTextField6.getText().trim().isEmpty() || jTextField5.getText().trim().isEmpty()) {
+        if (jTextField3.getText().trim().isEmpty() || jTextField4.getText().trim().isEmpty() || jTextField5.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -484,9 +495,12 @@ public class PedidosView extends javax.swing.JFrame {
             int clienteId = Integer.parseInt(jTextField4.getText());
             int vendedorId = Integer.parseInt(jTextField3.getText());
             double precioTotal = Double.parseDouble(jTextField5.getText());
-            Estado estado = Estado.valueOf(jTextField6.getText().toUpperCase());
 
-            // Assuming Cliente and Vendedor are retrieved via their IDs
+            // Get selected Estado from jComboBox1
+            String estadoSeleccionado = (String) jComboBox1.getSelectedItem();
+            Estado estado = Estado.valueOf(estadoSeleccionado);
+
+            // Retrieve Cliente and Vendedor by their IDs
             Cliente cliente = pedidoController.buscarClientePorId(clienteId);
             Vendedor vendedor = pedidoController.buscarVendedorPorId(vendedorId);
 
@@ -495,14 +509,14 @@ public class PedidosView extends javax.swing.JFrame {
                 return;
             }
 
-            // Creating a new Pedido with an empty DetallePedido list for simplicity
+            // Create a new Pedido with an empty DetallePedido list for simplicity
             pedidoController.crearNuevoPedido(cliente, vendedor, new ArrayList<>(), estado);
 
             // Clear input fields
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField5.setText("");
-            jTextField6.setText("");
+            jComboBox1.setSelectedIndex(0); // Reset ComboBox to default selection
 
             // Reload orders
             cargarPedidos();
@@ -511,7 +525,7 @@ public class PedidosView extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ClienteID, VendedorID y Precio Total deben ser valores numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "El estado ingresado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El estado seleccionado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -546,6 +560,17 @@ public class PedidosView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        VendedorView vendedorView = new VendedorView();
+        vendedorView.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     /**
@@ -591,6 +616,7 @@ public class PedidosView extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -607,6 +633,5 @@ public class PedidosView extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }
