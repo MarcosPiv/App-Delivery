@@ -46,7 +46,7 @@ public class PedidoJDBC implements PedidoDao {
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     pedido.setId(generatedKeys.getInt(1));
-                    crearDetallesPedido(pedido);
+                 //   crearDetallesPedido(pedido);
                 }
             }
         } catch (SQLException e) {

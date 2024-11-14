@@ -1,3 +1,5 @@
+-- hacer la base de datos en utf8mb4_spanish_ci
+
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cuit VARCHAR(20) NOT NULL,
@@ -43,7 +45,7 @@ CREATE TABLE pedidos (
     cliente_id INT NOT NULL,
     vendedor_id INT NOT NULL,
     precio_total DOUBLE NOT NULL,
-    estado ENUM(PENDIENTE, EN_PREPARACION, EN_ENVIO, RECIBIDO) NOT NULL,
+    estado ENUM('PENDIENTE', 'EN_PREPARACION', 'EN_ENVIO', 'RECIBIDO') NOT NULL,
     FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
     FOREIGN KEY (vendedor_id) REFERENCES vendedores(id) ON DELETE CASCADE
 );
@@ -56,4 +58,3 @@ CREATE TABLE detalles_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
     FOREIGN KEY (item_menu_id) REFERENCES items_menu(id) ON DELETE CASCADE
 );
--- hacer la base de datos en utf8mb4_spanish_ci

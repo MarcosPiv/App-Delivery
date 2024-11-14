@@ -1,10 +1,8 @@
 package com.mycompany.tpintegrador.accesodatos;
 
 import com.mycompany.tpintegrador.logica.models.Categoria;
+import org.springframework.data.repository.CrudRepository;
 
-public interface CategoriaDao {
-    void crearCategoria(Categoria categoria);
-    Categoria buscarCategoria(int id);
-    void actualizarCategoria(Categoria categoria);
-    void eliminarCategoria(int id);
+public interface CategoriaDao extends CrudRepository<Categoria, Integer> {
+
 }
