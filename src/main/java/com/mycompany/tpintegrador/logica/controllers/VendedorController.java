@@ -1,59 +1,39 @@
 package com.mycompany.tpintegrador.logica.controllers;
 
-import com.mycompany.tpintegrador.accesodatos.VendedorDao;
-import com.mycompany.tpintegrador.logica.models.Coordenada;
+import com.mycompany.tpintegrador.logica.Service.Impl.VendedorService;
 import com.mycompany.tpintegrador.logica.models.Vendedor;
 import java.util.List;
 
 public class VendedorController {
 
-    private VendedorDao vendedorDao;
+    private final VendedorService vendedorService;
 
-    public VendedorController(VendedorDao vendedorDao) {
-        this.vendedorDao = vendedorDao;
+    public VendedorController(VendedorService vendedorService){
+        this.vendedorService = vendedorService;
     }
 
-    public List<Vendedor> mostrarListaVendedor() {
-        return vendedorDao.listarVendedores();
+    public List<Vendedor> mostrarListaVendedor(){
+        return vendedorService.mostrarListaVendedor();
     }
 
-    public Vendedor crearNuevoVendedor(String nombre, String direccion, double latitud, double longitud) {
-        Vendedor nuevoVendedor = new Vendedor();
-        nuevoVendedor.setNombre(nombre);
-        nuevoVendedor.setDireccion(direccion);
-        nuevoVendedor.setCoordenada(new Coordenada(latitud, longitud));
-
-        vendedorDao.crearVendedor(nuevoVendedor);
-        return nuevoVendedor;
+    public Vendedor crearNuevoVendedor(String nombre, String direccion, double latitud, double longitud){
+        return vendedorService.crearNuevoVendedor(nombre, direccion, latitud, longitud);
     }
 
-    public void modificarVendedor(int id, String nombre, String direccion, double latitud, double longitud) {
-        Vendedor vendedorExistente = vendedorDao.buscarVendedorPorId(id);
-        if (vendedorExistente != null) {
-            vendedorExistente.setNombre(nombre);
-            vendedorExistente.setDireccion(direccion);
-            vendedorExistente.setCoordenada(new Coordenada(latitud, longitud));
-            vendedorDao.actualizarVendedor(vendedorExistente);
-        } else {
-            System.out.println("Vendedor con ID " + id + " no encontrado.");
-        }
+    public void modificarVendedor(int id, String nombre, String direccion, double latitud, double longitud){
+        vendedorService.modificarVendedor(id, nombre, direccion, latitud, longitud);
     }
 
-    public void eliminarVendedor(int id) {
-        Vendedor vendedor = vendedorDao.buscarVendedorPorId(id);
-        if (vendedor != null) {
-            vendedorDao.eliminarVendedor(id);
-        } else {
-            System.out.println("Vendedor con ID " + id + " no encontrado.");
-        }
+    public void eliminarVendedor(int id){
+        vendedorService.eliminarVendedor(id);
     }
 
-    public Vendedor buscarVendedor(int id) {
-        return vendedorDao.buscarVendedorPorId(id);
+    public Vendedor buscarVendedor(int id){
+        return vendedorService.buscarVendedor(id);
     }
 
-    public List<Vendedor> buscarVendedorPorNombre(String nombre) {
-        return vendedorDao.buscarVendedorPorNombre(nombre);  // Llamada al DAO para obtener la lista de vendedores por nombre
+    public List<Vendedor> buscarVendedorPorNombre(String nombre){
+        return vendedorService.buscarVendedorPorNombre(nombre);
     }
 }
 

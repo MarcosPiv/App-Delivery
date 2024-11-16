@@ -1,7 +1,6 @@
 package com.mycompany.tpintegrador.gui;
-import com.mycompany.tpintegrador.accesodatos.VendedorDao;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.VendedorJDBC;
 import com.mycompany.tpintegrador.config.DatabaseConnection;
+import com.mycompany.tpintegrador.logica.Service.Impl.VendedorService;
 import com.mycompany.tpintegrador.logica.controllers.VendedorController;
 import com.mycompany.tpintegrador.logica.models.Vendedor;
 
@@ -30,8 +29,8 @@ public class VendedorView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         try {
             Connection connection = DatabaseConnection.getConnection();
-            VendedorDao vendedorDao = new VendedorJDBC(connection);
-            vendedorController = new VendedorController(vendedorDao);
+            VendedorService vendedorService = new VendedorService();
+            vendedorController = new VendedorController(vendedorService);
 
             customTableSettings();
             cargarVendedores();

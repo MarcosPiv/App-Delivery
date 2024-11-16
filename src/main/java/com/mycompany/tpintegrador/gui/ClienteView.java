@@ -1,7 +1,6 @@
 package com.mycompany.tpintegrador.gui;
-import com.mycompany.tpintegrador.accesodatos.ClienteDao;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.ClienteJDBC;
 import com.mycompany.tpintegrador.config.DatabaseConnection;
+import com.mycompany.tpintegrador.logica.Service.Impl.ClienteService;
 import com.mycompany.tpintegrador.logica.controllers.ClienteController;
 import com.mycompany.tpintegrador.logica.models.Cliente;
 
@@ -30,8 +29,8 @@ public class ClienteView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         try {
             Connection connection = DatabaseConnection.getConnection();
-            ClienteDao clienteDao = new ClienteJDBC(connection);
-            clienteController = new ClienteController(clienteDao);
+            ClienteService clienteService = new ClienteService();
+            clienteController = new ClienteController(clienteService);
 
             customTableSettings();
             cargarClientes();

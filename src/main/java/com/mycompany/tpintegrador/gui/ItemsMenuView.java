@@ -1,9 +1,6 @@
 package com.mycompany.tpintegrador.gui;
-import com.mycompany.tpintegrador.accesodatos.CategoriaDao;
-import com.mycompany.tpintegrador.accesodatos.ItemsMenuDao;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.CategoriaJDBC;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.ItemsMenuJDBC;
 import com.mycompany.tpintegrador.config.DatabaseConnection;
+import com.mycompany.tpintegrador.logica.Service.Impl.ItemMenuService;
 import com.mycompany.tpintegrador.logica.controllers.ItemsMenuController;
 import com.mycompany.tpintegrador.logica.models.Bebida;
 import com.mycompany.tpintegrador.logica.models.Comida;
@@ -34,9 +31,8 @@ public class ItemsMenuView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         try {
             Connection connection = DatabaseConnection.getConnection();
-            ItemsMenuDao itemsMenuDao = new ItemsMenuJDBC(connection);
-            CategoriaDao categoriaDao = new CategoriaJDBC(connection);
-            itemsMenuController = new ItemsMenuController(itemsMenuDao, categoriaDao);
+            ItemMenuService itemMenuService = new ItemMenuService();
+            itemsMenuController = new ItemsMenuController(itemMenuService);
 
             customTableSettings();
             cargarItemsMenu();

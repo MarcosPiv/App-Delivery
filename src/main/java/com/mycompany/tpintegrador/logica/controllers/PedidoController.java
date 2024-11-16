@@ -1,92 +1,47 @@
 package com.mycompany.tpintegrador.logica.controllers;
 
-import com.mycompany.tpintegrador.accesodatos.ClienteDao;
-import com.mycompany.tpintegrador.accesodatos.PedidoDao;
-import com.mycompany.tpintegrador.accesodatos.VendedorDao;
+import com.mycompany.tpintegrador.logica.Service.Impl.PedidoService;
 import com.mycompany.tpintegrador.logica.models.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoController {
 
-    private PedidoDao pedidoDao;
-    private ClienteDao clienteDao;
-    private VendedorDao vendedorDao;
+    private final PedidoService pedidoService;
 
-    public PedidoController(PedidoDao pedidoDao, ClienteDao clienteDao, VendedorDao vendedorDao) {
-        this.pedidoDao = pedidoDao;
-        this.clienteDao = clienteDao;
-        this.vendedorDao = vendedorDao;
+    public PedidoController(PedidoService pedidoService){
+        this.pedidoService = pedidoService;
     }
 
-
-    public List<Pedido> listarPedidos() {
-        return pedidoDao.listarPedidos();
+    public List<Pedido> listarPedidos(){
+        return pedidoService.listarPedidos();
     }
 
-
-    public void crearNuevoPedido(Cliente cliente, Vendedor vendedor, List<DetallePedido> detalles, Estado estado) {
-        Pedido nuevoPedido = new Pedido();
-        nuevoPedido.setCliente(cliente);
-        nuevoPedido.setRestaurante(vendedor);
-        nuevoPedido.setEstado(estado);
-        nuevoPedido.setDetallesPedido((ArrayList<DetallePedido>) detalles);
-        nuevoPedido.setPrecioTotal(nuevoPedido.calcularPrecioTotal());
-
-        pedidoDao.crearPedido(nuevoPedido);
+    public void crearNuevoPedido(Cliente cliente, Vendedor vendedor, List<DetallePedido> detalles, Estado estado){
+        pedidoService.crearNuevoPedido(cliente, vendedor, detalles, estado);
     }
 
-
-    public Pedido buscarPedidoPorId(int id) {
-        return pedidoDao.buscarPedido(id);
+    public void eliminarPedido(int id){
+        pedidoService.eliminarPedido(id);
     }
 
-
-    public void actualizarPedido(int id, Cliente cliente, Vendedor vendedor, List<DetallePedido> detalles, Estado estado) {
-        Pedido pedidoExistente = pedidoDao.buscarPedido(id);
-
-        if (pedidoExistente != null) {
-            pedidoExistente.setCliente(cliente);
-            pedidoExistente.setRestaurante(vendedor);
-            pedidoExistente.setDetallesPedido((ArrayList<DetallePedido>) detalles);
-            pedidoExistente.setEstado(estado);
-            pedidoExistente.setPrecioTotal(pedidoExistente.calcularPrecioTotal());
-
-            pedidoDao.actualizarPedido(pedidoExistente);
-        }
+    public void cambiarEstadoPedido(int id, Estado nuevoEstado){
+        pedidoService.cambiarEstadoPedido(id, nuevoEstado);
     }
 
-
-    public void eliminarPedido(int id) {
-        pedidoDao.eliminarPedido(id);
+    public List<DetallePedido> mostrarDetallesPedido(int id){
+        return pedidoService.mostrarDetallesPedido(id);
     }
 
-
-    public void cambiarEstadoPedido(int id, Estado nuevoEstado) {
-        Pedido pedidoExistente = pedidoDao.buscarPedido(id);
-
-        if (pedidoExistente != null) {
-            pedidoExistente.setEstado(nuevoEstado);
-            pedidoDao.actualizarPedido(pedidoExistente);
-        }
+    public Vendedor buscarVendedorPorId(int vendedorId){
+        return pedidoService.buscarVendedorPorId(vendedorId);
     }
 
-
-    public List<DetallePedido> mostrarDetallesPedido(int id) {
-        Pedido pedidoExistente = pedidoDao.buscarPedido(id);
-        if (pedidoExistente != null) {
-            return pedidoExistente.getDetallesPedido();
-        }
-        return null;
+    public Cliente buscarClientePorId(int clienteId){
+        return pedidoService.buscarClientePorId(clienteId);
     }
 
-    public Cliente buscarClientePorId(int clienteId) {
-        return clienteDao.buscarCliente(clienteId);
-    }
-
-    public Vendedor buscarVendedorPorId(int vendedorId) {
-        return vendedorDao.buscarVendedorPorId(vendedorId);
+    public Pedido buscarPedidoPorId(int id){
+        return pedidoService.buscarPedidoPorId(id);
     }
 }
 

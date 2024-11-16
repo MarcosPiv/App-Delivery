@@ -1,21 +1,14 @@
 package com.mycompany.tpintegrador.gui;
-import com.mycompany.tpintegrador.accesodatos.ClienteDao;
-import com.mycompany.tpintegrador.accesodatos.PedidoDao;
-import com.mycompany.tpintegrador.accesodatos.VendedorDao;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.ClienteJDBC;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.PedidoJDBC;
-import com.mycompany.tpintegrador.accesodatos.impl.jdbc.VendedorJDBC;
+
 import com.mycompany.tpintegrador.config.DatabaseConnection;
+import com.mycompany.tpintegrador.logica.Service.Impl.PedidoService;
 import com.mycompany.tpintegrador.logica.controllers.PedidoController;
-import com.mycompany.tpintegrador.logica.controllers.VendedorController;
 import com.mycompany.tpintegrador.logica.models.Cliente;
 import com.mycompany.tpintegrador.logica.models.Estado;
 import com.mycompany.tpintegrador.logica.models.Pedido;
 import com.mycompany.tpintegrador.logica.models.Vendedor;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -23,7 +16,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -39,11 +31,8 @@ public class PedidosView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         try {
             Connection connection = DatabaseConnection.getConnection();
-            PedidoDao pedidoDao = new PedidoJDBC(connection);
-            ClienteDao clienteDao = new ClienteJDBC(connection);
-            VendedorDao vendedorDao = new VendedorJDBC(connection);
-
-            pedidoController = new PedidoController(pedidoDao, clienteDao, vendedorDao);
+            PedidoService pedidoService = new PedidoService();
+            pedidoController = new PedidoController(pedidoService);
 
             customTableSettings();
             cargarPedidos();
