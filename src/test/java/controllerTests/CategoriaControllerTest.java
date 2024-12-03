@@ -31,7 +31,6 @@ public class CategoriaControllerTest {
 
     @Test
     public void testCrearNuevaCategoria() {
-        // Simula que el método crearCategoria no hace nada (es un método void)
         doNothing().when(categoriaDao).crearCategoria(any(Categoria.class));
 
         Categoria nuevaCategoria = categoriaController.crearNuevaCategoria(
