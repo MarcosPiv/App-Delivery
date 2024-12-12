@@ -3,10 +3,7 @@ package com.example.demo.servicios;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.ResourceTypeMismatchException;
-import com.example.demo.model.Bebida;
-import com.example.demo.model.Categoria;
-import com.example.demo.model.Comida;
-import com.example.demo.model.ItemMenu;
+import com.example.demo.model.*;
 import com.example.demo.repositorio.CategoriaRepository;
 import com.example.demo.repositorio.ItemMenuRepository;
 import jakarta.transaction.Transactional;
@@ -20,11 +17,13 @@ public class ItemMenuService implements IitemMenuService {
 
     private final ItemMenuRepository itemMenuRepository;
     private final CategoriaRepository categoriaRepository;
+    private final IDetallePedidoService detallePedidoService;
 
     @Autowired
-    public ItemMenuService(ItemMenuRepository itemMenuRepository, CategoriaRepository categoriaRepository) {
+    public ItemMenuService(ItemMenuRepository itemMenuRepository, CategoriaRepository categoriaRepository, IDetallePedidoService detallePedidoService) {
         this.itemMenuRepository = itemMenuRepository;
         this.categoriaRepository = categoriaRepository;
+        this.detallePedidoService = detallePedidoService;
     }
 
     public List<ItemMenu> obtenerItemsMenu() {
@@ -109,6 +108,12 @@ public class ItemMenuService implements IitemMenuService {
     public void eliminarItemMenu(int id) {
         //verificar si el item existe usando obtenerItemMenu
         ItemMenu itemMenu = obtenerItemMenu(id);
+        List<DetallePedido> detallesPedido = detallePedidoService.buscarPorItemMenu(id);
+        if (!detallesPedido.isEmpty()) {
+            for (DetallePedido detalle : detallesPedido) {
+                detallePedidoService.eliminarDetallePedido(detalle.getId());
+            }
+        }
         itemMenuRepository.delete(itemMenu);
 
     }

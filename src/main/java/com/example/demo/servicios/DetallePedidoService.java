@@ -8,6 +8,7 @@ import com.example.demo.repositorio.ItemMenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,5 +57,15 @@ public class DetallePedidoService implements IDetallePedidoService {
 
     public boolean existeDetallePedido(int id) {
         return detallePedidoRepository.existsById(id);
+    }
+
+    public List<DetallePedido> buscarPorItemMenu(int itemId) {
+        return detallePedidoRepository.findByItemId(itemId);
+    }
+    public void eliminarDetallePedido(int id) {
+        if (!detallePedidoRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El detalle de pedido con ID " + id + " no existe.");
+        }
+        detallePedidoRepository.deleteById(id);
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.servicios;
 
 import com.example.demo.model.DetallePedido;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IDetallePedidoService {
@@ -9,4 +10,6 @@ public interface IDetallePedidoService {
     DetallePedido actualizarDetallePedido(DetallePedido detallePedido);
     Optional<DetallePedido> buscarPorCampos(int itemId, int cantidad, double precio);
     boolean existeDetallePedido(int id);
+    List<DetallePedido> buscarPorItemMenu(int itemId);
+    void eliminarDetallePedido(int id);
 }
