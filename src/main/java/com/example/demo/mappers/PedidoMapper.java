@@ -59,6 +59,12 @@ public class PedidoMapper {
 
         Pedido pedido = new Pedido();
         pedido.setId(dto.getId());
+        if(clienteService.obtenerClientePorId(dto.getClienteId()) == null){
+            throw new ResourceNotFoundException("El cliente no existe");
+        }
+        if(vendedorService.obtenerVendedorPorId(dto.getVendedorId()) == null){
+            throw new ResourceNotFoundException("El vendedor no existe");
+        }
         pedido.setCliente(clienteService.obtenerClientePorId(dto.getClienteId()));
         pedido.setRestaurante(vendedorService.obtenerVendedorPorId(dto.getVendedorId()));
         pedido.setPrecioTotal(dto.getPrecioTotal());
